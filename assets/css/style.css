@@ -983,7 +983,7 @@ textarea:-ms-input-placeholder {
   top: 100%;
 }
 .main_menu nav > ul > li:hover > a {
-  color: #ffffff;
+  /* color: #ffffff; */
 }
 .main_menu nav > ul > li:hover > a::before {
   opacity: 1;
