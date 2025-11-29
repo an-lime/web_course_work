@@ -36,19 +36,29 @@ $total_pages = ceil($total_products / $per_page);
 $filter_category = isset($_GET['id_cat']) ? $_GET['id_cat'] : '0';
 $filter_size = isset($_GET['id_size']) ? $_GET['id_size'] : '0';
 $where = [];
-if ($filter_category > 0) $where[] = "p.name_category={$filter_category} ";
-if ($filter_brand > 0) $where[] = "p.name_brand = {$filter_brand}";
+if ($filter_category > 0) $where[] = "p.category={$filter_category} ";
+if ($filter_brand > 0) $where[] = "p.size = {$filter_brand}";
 
-$where_condition = '';
+$where_condition = $where ? 'where' . implode(' and ', $where) : '';
 
 // сортировка
 
-$orderBy = '';
+$sort = isset($_GET['id_sort']) ? $_GET['id_sort'] : '0';
+$orderByMap = [
+    '0' => 'p.id_product ASC',
+    '1' => 'p.price ASC',
+    '2' => 'p.price DESC',
+    '3' => 'p.name_product ASC',
+    '4' => 'p.name_product DESC'
+];
+
+$orderBy = isset($orderByMap[$sort]) ? $orderByMap[$sort] : $orderByMap['0'];
 
 // Получаем товары для текущей страницы
 $sql_all_products = "SELECT *, (SELECT COUNT(*) FROM `Products` p $where_condition) as filtered_count 
 FROM `Products` p 
 $where_condition
+ORDER BY $orderBy
 LIMIT $per_page OFFSET $offset";
 
 $sql_product = $link->query($sql_all_products);
