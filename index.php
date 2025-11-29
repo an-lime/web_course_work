@@ -2,13 +2,7 @@
 require 'connect.php';
 require 'page/header.php';
 
-// Размеры и категории
-$sql_size = $link->query("SELECT s.id_size, s.name_size, COUNT(p.id_product) as amount FROM Sizes as s, Products as p WHERE p.size = s.id_size GROUP BY s.id_size");
-$all_product_for_filter = $link->query("SELECT COUNT(*) as all_qty FROM Products");
-$all_product_for_filter = $all_product_for_filter->fetch_assoc();
-$sql_categori = $link->query("SELECT c.id_category, c.name_category, COUNT(p.id_product) as amount FROM Categories as c, Products as p WHERE p.category = c.id_category GROUP BY c.id_category");
-
-// Пагинация и фильтры
+// Пагинация и фильтры (ПЕРЕМЕСТИЛИ ВПЕРЁД)
 $catalog_page = isset($_GET['catalog_page']) ? (int)$_GET['catalog_page'] : 1;
 if ($catalog_page < 1) $catalog_page = 1;
 $per_page = 5;
@@ -19,7 +13,34 @@ $filter_category = isset($_GET['id_cat']) ? (int)$_GET['id_cat'] : 0;
 $filter_size = isset($_GET['id_size']) ? (int)$_GET['id_size'] : 0;
 $orderby = isset($_GET['orderby']) ? $_GET['orderby'] : '1';
 
-// SQL условия для фильтров
+// ✅ БАЗОВЫЕ условия для ДИНАМИЧЕСКИХ фильтров размеров/категорий
+$where_filter = [];
+if ($filter_category != 0) $where_filter[] = "p.category = $filter_category";
+if ($filter_size != 0) $where_filter[] = "p.size = $filter_size";
+$where_filter_condition = !empty($where_filter) ? 'WHERE ' . implode(' AND ', $where_filter) : '';
+
+// ✅ ДИНАМИЧЕСКИЕ размеры и категории (учитывают активные фильтры)
+$sql_size = $link->query("
+    SELECT s.id_size, s.name_size, COUNT(DISTINCT p.id_product) as amount 
+    FROM Sizes s 
+    LEFT JOIN Products p ON p.size = s.id_size $where_filter_condition 
+    GROUP BY s.id_size 
+    ORDER BY s.name_size
+");
+
+$sql_categori = $link->query("
+    SELECT c.id_category, c.name_category, COUNT(DISTINCT p.id_product) as amount 
+    FROM Categories c 
+    LEFT JOIN Products p ON p.category = c.id_category $where_filter_condition 
+    GROUP BY c.id_category 
+    ORDER BY c.name_category
+");
+
+// ✅ Общее количество для "Все размеры/категории" (с активными фильтрами)
+$all_product_for_filter = $link->query("SELECT COUNT(DISTINCT p.id_product) as all_qty FROM Products p $where_filter_condition");
+$all_product_for_filter = $all_product_for_filter->fetch_assoc();
+
+// SQL условия для основного запроса
 $where = [];
 if ($filter_category != 0) $where[] = "p.category = $filter_category";
 if ($filter_size != 0) $where[] = "p.size = $filter_size";

@@ -36,7 +36,7 @@
                     <div class="widget__list widget_filter wow fadeInUp" data-wow-delay="0.1s"
                         data-wow-duration="1.1s">
                         <h3>Фильтр</h3>
-                        <div class="widget_filter_list mb-30">
+                        <div class="widget__list category wow fadeInUp">
                             <h4>По размеру</h4>
                             <ul>
                                 <li>
@@ -57,45 +57,30 @@
 
                             </ul>
                         </div>
-                    </div>
-                    <div class="widget__list category wow fadeInUp" data-wow-delay="0.2s" data-wow-duration="1.2s">
-                        <h3>Категория</h3>
-                        <div class="widget_category">
-                            <ul>
-                                <li>
-                                    <a href="index.php?page=catalog&id_cat=0&id_size=<?php echo $filter_size ?>&orderby=<?php echo $orderby ?>"
-                                        class="<?php echo $filter_category == 0 ? 'active-filter' : '' ?>">
-                                        Все категории<span>(<?php echo $all_product_for_filter['all_qty'] ?>)</span>
-                                    </a>
-                                </li>
-                                <?php foreach ($sql_categori as $categori): ?>
+
+                        <div class="widget__list category wow fadeInUp" data-wow-delay="0.2s" data-wow-duration="1.2s">
+                            <h4>По категории</h4>
+                            <div class="widget_category">
+                                <ul>
                                     <li>
-                                        <a href="index.php?page=catalog&id_cat=<?php echo $categori['id_category'] ?>&id_size=<?php echo $filter_size ?>&orderby=<?php echo $orderby ?>"
-                                            class="<?php echo $filter_category == $categori['id_category'] ? 'active-filter' : '' ?>">
-                                            <?php echo $categori['name_category'] ?><span>(<?php echo $categori['amount'] ?>)</span>
+                                        <a href="index.php?page=catalog&id_cat=0&id_size=<?php echo $filter_size ?>&orderby=<?php echo $orderby ?>"
+                                            class="<?php echo $filter_category == 0 ? 'active-filter' : '' ?>">
+                                            Все категории<span>(<?php echo $all_product_for_filter['all_qty'] ?>)</span>
                                         </a>
                                     </li>
-                                <?php endforeach; ?>
+                                    <?php foreach ($sql_categori as $categori): ?>
+                                        <li>
+                                            <a href="index.php?page=catalog&id_cat=<?php echo $categori['id_category'] ?>&id_size=<?php echo $filter_size ?>&orderby=<?php echo $orderby ?>"
+                                                class="<?php echo $filter_category == $categori['id_category'] ? 'active-filter' : '' ?>">
+                                                <?php echo $categori['name_category'] ?><span>(<?php echo $categori['amount'] ?>)</span>
+                                            </a>
+                                        </li>
+                                    <?php endforeach; ?>
 
-                            </ul>
+                                </ul>
+                            </div>
                         </div>
-                    </div>
-                    <div class="widget__list wow fadeInUp" data-wow-delay="0.3s" data-wow-duration="1.3s">
-                        <div class="widget_banner">
-                            <img src="assets/img/others/product-sidaber-banner.png" alt="">
-                        </div>
-                    </div>
-                    <div class="widget__list tags wow fadeInUp" data-wow-delay="0.4s" data-wow-duration="1.4s">
-                        <h3>Tags</h3>
-                        <div class="widget_tags">
-                            <ul>
-                                <li><a href="#">Cookies</a></li>
-                                <li><a href="#">Doughnuts</a></li>
-                                <li><a href="#">Desserts</a></li>
-                                <li><a href="#">Muffins</a></li>
-                                <li><a href="#">Doughnuts</a></li>
-                            </ul>
-                        </div>
+
                     </div>
                 </div>
             </div>
@@ -108,22 +93,68 @@
                         </div>
                         <div class="product_header_right d-flex align-items-center">
                             <div class="sorting__by d-flex align-items-center">
-                                <span>Sort By: </span>
-                                <div class="sorting-links btn-group ms-2" role="group">
-                                    <a href="index.php?page=catalog&id_cat=<?php echo $filter_category ?>&id_size=<?php echo $filter_size ?>&orderby=1"
-                                        class="btn btn-outline-secondary btn-sm <?php echo $orderby == '1' ? 'active' : ''; ?>">По умолчанию</a>
-                                    <a href="index.php?page=catalog&id_cat=<?php echo $filter_category ?>&id_size=<?php echo $filter_size ?>&orderby=2"
-                                        class="btn btn-outline-secondary btn-sm <?php echo $orderby == '2' ? 'active' : ''; ?>">По увеличению цены</a>
-                                    <a href="index.php?page=catalog&id_cat=<?php echo $filter_category ?>&id_size=<?php echo $filter_size ?>&orderby=3"
-                                        class="btn btn-outline-secondary btn-sm <?php echo $orderby == '3' ? 'active' : ''; ?>">По уменьшению цены</a>
-                                    <a href="index.php?page=catalog&id_cat=<?php echo $filter_category ?>&id_size=<?php echo $filter_size ?>&orderby=4"
-                                        class="btn btn-outline-secondary btn-sm <?php echo $orderby == '4' ? 'active' : ''; ?>">По названию А → Я</a>
-                                    <a href="index.php?page=catalog&id_cat=<?php echo $filter_category ?>&id_size=<?php echo $filter_size ?>&orderby=5"
-                                        class="btn btn-outline-secondary btn-sm <?php echo $orderby == '5' ? 'active' : ''; ?>">По названию Я → А</a>
+                                <span>Сортировать:</span>
+                                <div class="select_option ms-2">
+                                    <div class="sorting_dropdown dropdown">
+                                        <a href="#" class="sorting_current dropdown-toggle" data-bs-toggle="dropdown">
+                                            <?php
+                                            $sort_labels = [
+                                                '1' => 'По умолчанию',
+                                                '2' => 'По увеличению цены',
+                                                '3' => 'По уменьшению цены',
+                                                '4' => 'По названию А → Я',
+                                                '5' => 'По названию Я → А'
+                                            ];
+                                            echo $sort_labels[$orderby] ?? 'По умолчанию';
+                                            ?>
+                                            <i class="ion-chevron-down ms-1"></i>
+                                        </a>
+                                        <ul class="dropdown-menu sorting-menu">
+                                            <li>
+                                                <a class="dropdown-item sorting-item <?php echo $orderby == '1' ? 'active' : ''; ?>"
+                                                    href="index.php?page=catalog&id_cat=<?php echo $filter_category ?>&id_size=<?php echo $filter_size ?>&orderby=1">
+                                                    По умолчанию
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item sorting-item <?php echo $orderby == '2' ? 'active' : ''; ?>"
+                                                    href="index.php?page=catalog&id_cat=<?php echo $filter_category ?>&id_size=<?php echo $filter_size ?>&orderby=2">
+                                                    По увеличению цены
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item sorting-item <?php echo $orderby == '3' ? 'active' : ''; ?>"
+                                                    href="index.php?page=catalog&id_cat=<?php echo $filter_category ?>&id_size=<?php echo $filter_size ?>&orderby=3">
+                                                    По уменьшению цены
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item sorting-item <?php echo $orderby == '4' ? 'active' : ''; ?>"
+                                                    href="index.php?page=catalog&id_cat=<?php echo $filter_category ?>&id_size=<?php echo $filter_size ?>&orderby=4">
+                                                    По названию А → Я
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="dropdown-item sorting-item <?php echo $orderby == '5' ? 'active' : ''; ?>"
+                                                    href="index.php?page=catalog&id_cat=<?php echo $filter_category ?>&id_size=<?php echo $filter_size ?>&orderby=5">
+                                                    По названию Я → А
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
+
+                            <div class="ms-3">
+                                <a href="index.php?page=catalog"
+                                    class="btn btn-sm btn-outline-secondary reset-filters-btn">
+                                    Сбросить фильтры
+                                </a>
+                            </div>
                         </div>
+
                     </div>
+
 
                     <!--shop toolbar area end-->
 

@@ -9756,3 +9756,138 @@ span.ui-slider-handle.ui-corner-all.ui-state-default {
   background-color: #0056b3 !important;
   color: white !important;
 }
+
+.sorting_dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.sorting_current {
+  display: flex;
+  align-items: center;
+  padding: 8px 15px;
+  border: 1px solid #e1e1e1;
+  border-radius: 4px;
+  background: #fff;
+  text-decoration: none;
+  color: #333;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.sorting_current:hover {
+  border-color: #ddd;
+  background: #f8f9fa;
+  color: #333;
+}
+
+.sorting_current i {
+  font-size: 12px;
+  transition: transform 0.3s ease;
+}
+
+.sorting_dropdown[aria-expanded="true"] .sorting_current i {
+  transform: rotate(180deg);
+}
+
+.sorting-menu {
+  min-width: 220px;
+  margin-top: 5px;
+  border: 1px solid #e1e1e1;
+  border-radius: 4px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 5px 0;
+}
+
+.sorting-item {
+  padding: 10px 20px;
+  color: #666;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.sorting-item:hover {
+  background: #f8f9fa;
+  color: #333;
+}
+
+.sorting-item.active {
+  background: #f0f4ff !important;
+  color: #007bff !important;
+  font-weight: 500;
+  border-right: 3px solid #007bff;
+}
+
+/* АКТИВНЫЕ ФИЛЬТРЫ (тонкое выделение) */
+a[href*="id_size="],
+a[href*="id_cat="] {
+  display: block;
+  padding: 10px 15px;
+  color: #666;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+a[href*="id_size="]:hover,
+a[href*="id_cat="]:hover {
+  background: #f8f9fa;
+  color: #333;
+}
+
+a[href*="id_size="].active-filter,
+a[href*="id_cat="].active-filter {
+  background: #f0f4ff !important;
+  color: #007bff !important;
+  font-weight: 500;
+  border-left: 3px solid #007bff;
+}
+
+.reset-filters-btn {
+  font-size: 13px;
+  padding: 6px 12px;
+  border-radius: 4px;
+  color: #666;
+  border-color: #ccc;
+  background-color: #fff;
+  transition: all 0.2s ease;
+}
+
+.reset-filters-btn:hover {
+  color: #333;
+  border-color: #999;
+  background-color: #f8f9fa;
+}
+
+/* базовый вид ссылки фильтра */
+.widget__list.category ul li a {
+  display: block;
+  padding: 8px 15px;
+  border-radius: 4px;
+  color: #444;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+/* активный (нажатый) фильтр */
+.widget__list.category ul li a.active-filter {
+  background-color: #f0f4ff;
+  /* основной фон активного */
+  color: #007bff;
+  font-weight: 500;
+  border-left: 3px solid #007bff;
+}
+
+/* hover — как активный, но чуть светлее */
+.widget__list.category ul li a:hover {
+  background-color: #f5f7ff;
+  /* немного светлее, чем у active */
+  color: #007bff;
+}
+
+/* чтобы hover не перебивал активный слишком сильно */
+.widget__list.category ul li a.active-filter:hover {
+  background-color: #e7eeff;
+  /* между обычным active и hover */
+}
