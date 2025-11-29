@@ -94,58 +94,17 @@
                 <div class="single_product_gallery">
                     <div class="product_gallery_inner d-flex">
                         <div class="product_gallery_main_img">
-                            <div class="gallery_img_list">
-                                <img data-image="assets/img/product/product5.png"
-                                    src="assets/img/product/product5.png" alt="">
-                            </div>
-                            <div class="gallery_img_list">
-                                <img src="assets/img/product/product2.png" alt="">
-                            </div>
-                            <div class="gallery_img_list">
-                                <img src="assets/img/product/product1.png" alt="">
-                            </div>
-                            <div class="gallery_img_list">
-                                <img src="assets/img/product/product7.png" alt="">
-                            </div>
-                            <div class="gallery_img_list">
-                                <img src="assets/img/product/product8.png" alt="">
-                            </div>
-                            <div class="gallery_img_list">
-                                <img src="assets/img/product/product9.png" alt="">
-                            </div>
-                            <div class="gallery_img_list">
-                                <img src="assets/img/product/product10.png" alt="">
-                            </div>
-                            <div class="gallery_img_list">
-                                <img src="assets/img/product/product11.png" alt="">
-                            </div>
-                        </div>
-                        <div class="product_gallery_btn_img">
-                            <a class="gallery_btn_img_list" href="javascript:void(0)"><img
-                                    src="assets/img/product/mini-product/product3.png" alt="tab-thumb"></a>
-                            <a class="gallery_btn_img_list" href="javascript:void(0)"><img
-                                    src="assets/img/product/mini-product/product1.png" alt="tab-thumb"></a>
-                            <a class="gallery_btn_img_list" href="javascript:void(0)"><img
-                                    src="assets/img/product/mini-product/product4.png" alt="tab-thumb"></a>
-                            <a class="gallery_btn_img_list" href="javascript:void(0)"><img
-                                    src="assets/img/product/mini-product/product5.png" alt="tab-thumb"></a>
-                            <a class="gallery_btn_img_list" href="javascript:void(0)"><img
-                                    src="assets/img/product/mini-product/product6.png" alt="tab-thumb"></a>
-                            <a class="gallery_btn_img_list" href="javascript:void(0)"><img
-                                    src="assets/img/product/mini-product/product8.png" alt="tab-thumb"></a>
-                            <a class="gallery_btn_img_list" href="javascript:void(0)"><img
-                                    src="assets/img/product/mini-product/product7.png" alt="tab-thumb"></a>
-                            <a class="gallery_btn_img_list" href="javascript:void(0)"><img
-                                    src="assets/img/product/mini-product/product2.png" alt="tab-thumb"></a>
+                            <img data-image="assets/img/product/product5.png"
+                                src="<?php echo $sql_product_id['photo'] ?>" alt="product-img">
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-lg-6 col-md-6">
                 <div class="product_details_sidebar">
-                    <h2 class="product__title">Products Name Here</h2>
+                    <h2 class="product__title"><?php echo $sql_product_id['name_product'] ?></h2>
                     <div class="price_box">
-                        <span class="current_price">$22.00</span>
+                        <span class="current_price"><?php echo $sql_product_id['price'] ?> р.</span>
                     </div>
                     <div class="quickview__info mb-0">
                         <p class="product_review d-flex align-items-center">
@@ -156,23 +115,16 @@
                                 <i class="ion-ios-star"></i>
                                 <i class="ion-ios-star"></i>
                             </span>
-                            <span class="review__text"> (5 reviews)</span>
+                            <span class="review__text"> (5 отзывов)</span>
                         </p>
                     </div>
-                    <p class="product_details_desc">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-                        eiusmoddll tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veni quis
-                        nostrud exercit ullamco laboris nisi ut aliquip.
-                    </p>
+                    <p class="product_details_desc"><?php echo $sql_product_id['short_description'] ?></p>
                     <div class="product_pro_button quantity d-flex align-items-center">
                         <div class="pro-qty border">
-                            <input type="text" value="1">
+                            <input type="text" value="1" id="qty-input">
                         </div>
-                        <a class="add_to_cart " href="#">add to cart</a>
+                        <a id="add-to-cart-link" class="add_to_cart " href="#">Добавить в корзину</a>
                         <a class="wishlist__btn" href="#"><i class="pe-7s-like"></i></a>
-                        <a class="serch_btn" href="#"><i class="pe-7s-search"></i></a>
-                    </div>
-                    <div class="product_paypal">
-                        <img src="assets/img/others/paypal.png" alt="payments">
                     </div>
                 </div>
             </div>
@@ -190,38 +142,20 @@
                     <ul class="nav justify-content-center">
                         <li>
                             <a class="active" data-bs-toggle="tab" href="#description"
-                                aria-controls="description">Description</a>
+                                aria-controls="description">Описание</a>
                         </li>
                         <li>
-                            <a data-bs-toggle="tab" href="#aditional" aria-controls="aditional">information</a>
+                            <a data-bs-toggle="tab" href="#aditional" aria-controls="aditional">Информация</a>
                         </li>
                         <li>
-                            <a data-bs-toggle="tab" href="#reviews" aria-controls="reviews">Reviews 03</a>
+                            <a data-bs-toggle="tab" href="#reviews" aria-controls="reviews">Отзывы</a>
                         </li>
                     </ul>
                 </div>
                 <div class="product_page_content_inner tab-content">
                     <div class="tab-pane fade show active" id="description" role="tabpanel">
                         <div class="product_tab_desc">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                                incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                                nostrud
-                                exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                                irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                                nulla
-                                pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
-                                officia
-                                deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus
-                                error
-                                sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa
-                                quae
-                                ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt
-                                explicabo.
-                                Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed
-                                quia
-                                consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque
-                                porro
-                                quisquam est, qui dolorem ipsum</p>
+                            <p><?php echo $sql_product_id['description'] ?></p>
                         </div>
                     </div>
                     <div class="tab-pane fade" id="aditional" role="tabpanel">
@@ -692,4 +626,26 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const qtyInput = document.getElementById('qty-input');
+        const addLink = document.getElementById('add-to-cart-link');
+
+        if (!qtyInput || !addLink) return;
+
+        addLink.addEventListener('click', function(e) {
+
+
+            let qty = parseInt(qtyInput.value, 10);
+            if (isNaN(qty) || qty < 1) qty = 1;
+
+            const url = new URL(addLink.href, window.location.origin);
+            url.searchParams.set('qty', qty);
+
+            addLink.href = url.toString();
+        });
+    });
+</script>
+
 <!-- modal area end-->

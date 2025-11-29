@@ -43,10 +43,9 @@
                 <div class="col-12">
                     <div class="main_footer_inner d-flex">
                         <div class="footer_widget_list contact footer_list_width">
-                            <h3>Contact Us</h3>
+                            <h3>Обратная связь</h3>
                             <div class="footer_contact_desc">
-                                <p>If you have any question.please
-                                    contact us at <a href="#">demo@example.com</a></p>
+                                <p>Если у вас есть вопросы, пожалуйста, свяжитесь с нами по адресу <a href="#">demo@example.com</a></p>
                             </div>
                             <div class="footer_contact_info">
                                 <div class="footer_contact_info_list d-flex align-items-center">

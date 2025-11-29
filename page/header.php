@@ -127,7 +127,7 @@
                 <div class="col-12">
                     <div class="main_header d-flex justify-content-between align-items-center">
                         <div class="header_logo">
-                            <a class="sticky_none" href="index.html"><img src="assets/img/logo/logo.png" alt=""></a>
+                            <a class="sticky_none" href="index.php?page=main"><img src="assets/img/logo/logo.png" alt=""></a>
                         </div>
                         <!--main menu start-->
                         <div class="main_menu d-none d-lg-block">
