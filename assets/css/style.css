@@ -9744,3 +9744,15 @@ span.ui-slider-handle.ui-corner-all.ui-state-default {
   cursor: pointer;
 }
 
+.active-filter,
+.btn.active {
+  background-color: #007bff !important;
+  color: white !important;
+  border-color: #007bff !important;
+}
+
+.active-filter:hover,
+.btn.active:hover {
+  background-color: #0056b3 !important;
+  color: white !important;
+}

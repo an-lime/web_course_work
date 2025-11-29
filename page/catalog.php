@@ -40,21 +40,20 @@
                             <h4>По размеру</h4>
                             <ul>
                                 <li>
-                                    <?php
-                                    $all_product_for_filter = $all_product_for_filter->fetch_assoc();
-                                    ?>
-                                    <a href="index.php?page=catalog&id_cat=<?php echo $filter_category ?>&id_size=0">Все размеры (<?php echo $all_product_for_filter['all_qty'] ?>)</a>
+                                    <a href="index.php?page=catalog&id_cat=<?php echo $filter_category ?>&id_size=0&orderby=<?php echo $orderby ?>"
+                                        class="<?php echo $filter_size == 0 ? 'active-filter' : '' ?>">
+                                        Все размеры (<?php echo $all_product_for_filter['all_qty'] ?>)
+                                    </a>
                                 </li>
+                                <?php foreach ($sql_size as $size): ?>
+                                    <li>
+                                        <a href="index.php?page=catalog&id_size=<?php echo $size['id_size'] ?>&id_cat=<?php echo $filter_category ?>&orderby=<?php echo $orderby ?>"
+                                            class="<?php echo $filter_size == $size['id_size'] ? 'active-filter' : '' ?>">
+                                            <?php echo $size['name_size'] ?> (<?php echo $size['amount'] ?>)
+                                        </a>
+                                    </li>
+                                <?php endforeach; ?>
 
-                                <?php
-                                foreach ($sql_size as $size):
-                                ?>
-
-                                    <li><a href="index.php?page=catalog&id_size=<?php echo $size['id_size'] ?>&id_cat=<?php echo $filter_category ?>"><?php echo $size['name_size'] ?> (<?php echo $size['amount'] ?>)</a></li>
-
-                                <?php
-                                endforeach;
-                                ?>
 
                             </ul>
                         </div>
@@ -63,17 +62,20 @@
                         <h3>Категория</h3>
                         <div class="widget_category">
                             <ul>
-                                <li><a href="index.php?page=catalog&id_cat=0&id_size=<?php echo $filter_size ?>">Все категории<span>(<?php echo $all_product_for_filter['all_qty'] ?>)</span></a></li>
-
-                                <?php
-                                foreach ($sql_categori as $categori):
-                                ?>
-
-                                    <li><a href="index.php?page=catalog&id_cat=<?php echo $categori['id_category'] ?>&id_size=<?php echo $filter_size ?>"><?php echo $categori['name_category'] ?><span>(<?php echo $categori['amount'] ?>)</span></a></li>
-
-                                <?php
-                                endforeach;
-                                ?>
+                                <li>
+                                    <a href="index.php?page=catalog&id_cat=0&id_size=<?php echo $filter_size ?>&orderby=<?php echo $orderby ?>"
+                                        class="<?php echo $filter_category == 0 ? 'active-filter' : '' ?>">
+                                        Все категории<span>(<?php echo $all_product_for_filter['all_qty'] ?>)</span>
+                                    </a>
+                                </li>
+                                <?php foreach ($sql_categori as $categori): ?>
+                                    <li>
+                                        <a href="index.php?page=catalog&id_cat=<?php echo $categori['id_category'] ?>&id_size=<?php echo $filter_size ?>&orderby=<?php echo $orderby ?>"
+                                            class="<?php echo $filter_category == $categori['id_category'] ? 'active-filter' : '' ?>">
+                                            <?php echo $categori['name_category'] ?><span>(<?php echo $categori['amount'] ?>)</span>
+                                        </a>
+                                    </li>
+                                <?php endforeach; ?>
 
                             </ul>
                         </div>
@@ -102,24 +104,27 @@
                     <!--shop toolbar area start-->
                     <div class="product_sidebar_header mb-60 d-flex justify-content-between align-items-center">
                         <div class="page__amount border">
-                            <p>Продуктов найдено: <span><?php echo $sql_product->fetch_assoc()['filtered_count'] ?></span></p>
+                            <p>Продуктов найдено: <span><?php echo $sql_product->num_rows > 0 ? $sql_product->fetch_assoc()['filtered_count'] : '0'; ?></span></p>
                         </div>
                         <div class="product_header_right d-flex align-items-center">
                             <div class="sorting__by d-flex align-items-center">
-                                <span>Sort By : </span>
-                                <form class="select_option" action="#">
-                                    <select name="orderby" id="short">
-                                        <option selected value="1">Default</option>
-                                        <option value="2">Sort by popularity</option>
-                                        <option value="3">Sort by newness</option>
-                                        <option value="4"> low to high</option>
-                                        <option value="5"> high to low</option>
-                                        <option value="6">Product Name: Z</option>
-                                    </select>
-                                </form>
+                                <span>Sort By: </span>
+                                <div class="sorting-links btn-group ms-2" role="group">
+                                    <a href="index.php?page=catalog&id_cat=<?php echo $filter_category ?>&id_size=<?php echo $filter_size ?>&orderby=1"
+                                        class="btn btn-outline-secondary btn-sm <?php echo $orderby == '1' ? 'active' : ''; ?>">По умолчанию</a>
+                                    <a href="index.php?page=catalog&id_cat=<?php echo $filter_category ?>&id_size=<?php echo $filter_size ?>&orderby=2"
+                                        class="btn btn-outline-secondary btn-sm <?php echo $orderby == '2' ? 'active' : ''; ?>">По увеличению цены</a>
+                                    <a href="index.php?page=catalog&id_cat=<?php echo $filter_category ?>&id_size=<?php echo $filter_size ?>&orderby=3"
+                                        class="btn btn-outline-secondary btn-sm <?php echo $orderby == '3' ? 'active' : ''; ?>">По уменьшению цены</a>
+                                    <a href="index.php?page=catalog&id_cat=<?php echo $filter_category ?>&id_size=<?php echo $filter_size ?>&orderby=4"
+                                        class="btn btn-outline-secondary btn-sm <?php echo $orderby == '4' ? 'active' : ''; ?>">По названию А → Я</a>
+                                    <a href="index.php?page=catalog&id_cat=<?php echo $filter_category ?>&id_size=<?php echo $filter_size ?>&orderby=5"
+                                        class="btn btn-outline-secondary btn-sm <?php echo $orderby == '5' ? 'active' : ''; ?>">По названию Я → А</a>
+                                </div>
                             </div>
                         </div>
                     </div>
+
                     <!--shop toolbar area end-->
 
 
@@ -190,23 +195,22 @@
                         <ul>
                             <?php if ($catalog_page > 1): ?>
                                 <li class="prev">
-                                    <a href="?page=catalog&catalog_page=<?= $catalog_page - 1 ?>">
+                                    <a href="index.php?page=catalog&catalog_page=<?= $catalog_page - 1 ?>&id_cat=<?= $filter_category ?>&id_size=<?= $filter_size ?>&orderby=<?= $orderby ?>">
                                         <i class="ion-chevron-left"></i>
                                     </a>
                                 </li>
                             <?php endif; ?>
 
                             <?php
-                            // Настройки пагинации
                             $max_visible_pages = 3;
                             $start_page = max(1, $catalog_page - floor($max_visible_pages / 2));
                             $end_page = min($total_pages, $start_page + $max_visible_pages - 1);
-
                             $start_page = max(1, $end_page - $max_visible_pages + 1);
+                            ?>
 
-                            if ($start_page > 1): ?>
+                            <?php if ($start_page > 1): ?>
                                 <li class="<?= 1 == $catalog_page ? 'current' : '' ?>">
-                                    <a href="?page=catalog&catalog_page=1">1</a>
+                                    <a href="index.php?page=catalog&catalog_page=1&id_cat=<?= $filter_category ?>&id_size=<?= $filter_size ?>&orderby=<?= $orderby ?>">1</a>
                                 </li>
                                 <?php if ($start_page > 2): ?>
                                     <li class="dots"><span>...</span></li>
@@ -215,7 +219,7 @@
 
                             <?php for ($i = $start_page; $i <= $end_page; $i++): ?>
                                 <li class="<?= $i == $catalog_page ? 'current' : '' ?>">
-                                    <a href="?page=catalog&catalog_page=<?= $i ?>"><?= $i ?></a>
+                                    <a href="index.php?page=catalog&catalog_page=<?= $i ?>&id_cat=<?= $filter_category ?>&id_size=<?= $filter_size ?>&orderby=<?= $orderby ?>"><?= $i ?></a>
                                 </li>
                             <?php endfor; ?>
 
@@ -224,19 +228,20 @@
                                     <li class="dots"><span>...</span></li>
                                 <?php endif; ?>
                                 <li class="<?= $total_pages == $catalog_page ? 'current' : '' ?>">
-                                    <a href="?page=catalog&catalog_page=<?= $total_pages ?>"><?= $total_pages ?></a>
+                                    <a href="index.php?page=catalog&catalog_page=<?= $total_pages ?>&id_cat=<?= $filter_category ?>&id_size=<?= $filter_size ?>&orderby=<?= $orderby ?>"><?= $total_pages ?></a>
                                 </li>
                             <?php endif; ?>
 
                             <?php if ($catalog_page < $total_pages): ?>
                                 <li class="next">
-                                    <a href="?page=catalog&catalog_page=<?= $catalog_page + 1 ?>">
+                                    <a href="index.php?page=catalog&catalog_page=<?= $catalog_page + 1 ?>&id_cat=<?= $filter_category ?>&id_size=<?= $filter_size ?>&orderby=<?= $orderby ?>">
                                         <i class="ion-chevron-right"></i>
                                     </a>
                                 </li>
                             <?php endif; ?>
                         </ul>
                     </div>
+
                     <!--shop gallery end-->
                 </div>
             </div>
