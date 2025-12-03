@@ -60,7 +60,6 @@
 
 <body>
 
-
     <!--offcanvas menu area start-->
     <div class="body_overlay">
 
@@ -74,7 +73,7 @@
                             <a href="javascript:void(0)"><i class="ion-android-close"></i></a>
                         </div>
                         <div class="welcome_text text-center">
-                            <p>Welcome to Bucker Bakery Shop</p>
+                            <p>Добро пожаловать в магазин Bucker</p>
                         </div>
                         <div id="menu" class="text-left ">
                             <ul class="offcanvas_main_menu">
@@ -100,7 +99,7 @@
                     <div class="col-12">
                         <div class="header_top_inner d-flex justify-content-between">
                             <div class="welcome_text">
-                                <p>Абсолютно бесплатный возврат и бесплатная доставка по всему миру</p>
+                                <p>Абсолютно бесплатный возврат и бесплатная доставка</p>
                             </div>
                             <div class="header_top_sidebar d-flex align-items-center">
                                 <ul class="d-flex">
@@ -108,13 +107,12 @@
                                     </li>
                                     <li><i class="icofont-envelope"></i> <a
                                             href="mailto:demo@example.com">demo@example.com</a></li>
-                                    <li class="account_link"> <i class="icofont-user-alt-7"></i><a href="#">Аккаунт</a>
-                                        <ul class="dropdown_account_link">
-                                            <li><a href="index.php?page=my-account">Личный кабинет</a></li>
-                                            <li><a href="index.php?page=login-register">Войти</a></li>
-                                            <li><a href="contact.html">Связь с нами</a></li>
-                                        </ul>
-                                    </li>
+                                    <?php if (!$_SESSION['user']): ?>
+                                        <li><a href="index.php?page=login">Вход</a></li>
+                                        <li><a href="index.php?page=register">Регистрация</a></li>
+                                    <?php else: ?>
+                                        <li><a href="index.php?page=my-account"><?php echo $_SESSION['user']['name'] . ' ' . $_SESSION['user']['surname'] ?></a></li>
+                                    <?php endif ?>
                                 </ul>
                             </div>
                         </div>
@@ -148,7 +146,9 @@
                                 </li>
                                 <li class="header_wishlist"><a href="wishlist.html"><i class="pe-7s-like"></i></a></li>
                                 <li class="shopping_cart"><a href="javascript:void(0)"><i class="pe-7s-shopbag"></i></a>
-                                    <span class="item_count">2</span>
+                                    <span class="item_count">
+                                        <?php echo (int)$sql_product_in_cart->num_rows; ?>
+                                    </span>
                                 </li>
                             </ul>
                             <div class="canvas_open">
@@ -160,3 +160,63 @@
             </div>
         </div>
     </header>
+
+    <!--mini cart-->
+    <div class="mini_cart">
+        <div class="cart_gallery">
+            <div class="cart_close">
+                <div class="cart_text">
+                    <h3>Корзина</h3>
+                </div>
+                <div class="mini_cart_close">
+                    <a href="javascript:void(0)"><i class="ion-android-close"></i></a>
+                </div>
+            </div>
+
+            <?php foreach ($sql_product_in_cart as $product_in_cart): ?>
+
+                <div class="cart_item">
+                    <div class="cart_img">
+                        <a href="index.php?page=product&id_product=<?php echo $product_in_cart['id_product'] ?>"><img src="<?php echo $product_in_cart['photo'] ?>" alt=""></a>
+                    </div>
+                    <div class="cart_info">
+                        <a href="index.php?page=product&id_product=<?php echo $product_in_cart['id_product'] ?>"><?php echo $product_in_cart['name_product'] ?></a>
+                        <p><?php echo $product_in_cart['qty'] ?> x <span> <?php echo $product_in_cart['price'] ?> р. </span></p>
+                    </div>
+                    <div class="cart_remove">
+                        <a href="#"><i class="ion-android-close"></i></a>
+                    </div>
+                </div>
+
+            <?php endforeach ?>
+
+        </div>
+        <div class="mini_cart_table">
+            <div class="cart_table_border">
+                <div class="cart_total">
+                    <span>Всего:</span>
+                    <span class="price"> <?php echo $total_price; ?> р. </span>
+                </div>
+            </div>
+        </div>
+        <div class="mini_cart_footer">
+            <div class="cart_button">
+                <a href="cart.html">Открыть корзину</a>
+            </div>
+            <div class="cart_button">
+                <a href="checkout.html"><i class="fa fa-sign-in"></i>Перейти к оформлению</a>
+            </div>
+        </div>
+    </div>
+    <!--mini cart end-->
+
+    <!-- page search box -->
+    <div class="page_search_box">
+        <div class="search_close">
+            <i class="ion-close-round"></i>
+        </div>
+        <form class="border-bottom" action="#">
+            <input class="border-0" placeholder="Search products..." type="text">
+            <button type="submit"><span class="pe-7s-search"></span></button>
+        </form>
+    </div>

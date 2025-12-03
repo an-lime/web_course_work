@@ -1,14 +1,3 @@
-<!-- page search box -->
-<div class="page_search_box">
-    <div class="search_close">
-        <i class="ion-close-round"></i>
-    </div>
-    <form class="border-bottom" action="#">
-        <input class="border-0" placeholder="Search products..." type="text">
-        <button type="submit"><span class="pe-7s-search"></span></button>
-    </form>
-</div>
-
 <!-- breadcrumbs area start -->
 <div class="breadcrumbs_aree breadcrumbs_bg mb-100" data-bgimg="assets/img/others/breadcrumbs-bg.png">
     <div class="container">

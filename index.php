@@ -1,5 +1,25 @@
 <?php
+
+session_start();
+
 require 'connect.php';
+
+// Для количества товаров корзины в хедере
+$id_user = (int)$_SESSION['user']['id_user'];
+
+$sql_product_in_cart = $link->query(" SELECT p.*, c.qty, cat.name_category, s.name_size 
+FROM Carts c 
+JOIN Products p ON c.id_product = p.id_product, Categories cat, Sizes s
+WHERE c.id_user = $id_user AND cat.id_category = p.category AND s.id_size = p.size
+");
+
+$total_price = 0;
+foreach ($sql_product_in_cart as $product_in_cart) {
+    $total_price += $product_in_cart['price'] * $product_in_cart['qty'];
+}
+
+// и теперь подключаем header.php
+
 require 'page/header.php';
 
 $catalog_page = isset($_GET['catalog_page']) ? (int)$_GET['catalog_page'] : 1;
@@ -8,8 +28,8 @@ $per_page = 5;
 $offset = ($catalog_page - 1) * $per_page;
 
 $filter_category = isset($_GET['id_cat']) ? (int)$_GET['id_cat'] : 0;
-$filter_size     = isset($_GET['id_size']) ? (int)$_GET['id_size'] : 0;
-$orderby         = isset($_GET['orderby']) ? $_GET['orderby'] : '1';
+$filter_size = isset($_GET['id_size']) ? (int)$_GET['id_size'] : 0;
+$orderby = isset($_GET['orderby']) ? $_GET['orderby'] : '1';
 
 $whereMain = [];
 if ($filter_category != 0) $whereMain[] = "p.category = $filter_category";
@@ -114,12 +134,19 @@ if (isset($_GET['id_product'])) {
     $sql_product_id = mysqli_fetch_assoc($sql_product_id);
 };
 
+// Корзина
+
+
+
 // РОУТЕР
 $routers = [
     'main' => 'page/main.php',
     'about' => 'page/about.php',
     'catalog' => 'page/catalog.php',
     'product' => 'page/product.php',
+    'login' => 'page/login.php',
+    'register' => 'page/register.php',
+    'my-account' => 'page/my-account.php',
 ];
 
 if (!isset($_GET['page'])) {
