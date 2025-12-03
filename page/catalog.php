@@ -157,17 +157,6 @@
                                                     <a href="index.php?page=product&id_product=<?php echo $product['id_product'] ?>">
                                                         <img src="<?php echo $product['photo'] ?>" alt="">
                                                     </a>
-                                                    <div class="action_links">
-                                                        <ul class="d-flex justify-content-center">
-                                                            <li class="add_to_cart"><a href="cart.html" title="Add to cart">
-                                                                    <span class="pe-7s-shopbag"></span></a></li>
-                                                            <li class="wishlist"><a href="#" title="Add to Wishlist">
-                                                                    <span class="pe-7s-like"></span></a></li>
-                                                            <li class="quick_button"><a href="#" title="Quick View"
-                                                                    data-bs-toggle="modal" data-bs-target="#modal_box">
-                                                                    <span class="pe-7s-look"></span></a></li>
-                                                        </ul>
-                                                    </div>
                                                 </div>
                                                 <figcaption class="product_list_content">
                                                     <h4><a href="index.php?page=product&id_product=<?php echo $product['id_product'] ?>"><?php echo $product['name_product'] ?></a></h4>
@@ -185,14 +174,6 @@
                                                     </div>
                                                     <div class="product__desc">
                                                         <p><?php echo $product['short_description'] ?></p>
-                                                    </div>
-                                                    <div class="action_links product_list_action">
-                                                        <ul class="d-flex">
-                                                            <li class="add_to_cart"><a href="cart.html" title="Add to cart">
-                                                                    <span class="pe-7s-shopbag"></span></a></li>
-                                                            <li class="wishlist"><a href="#" title="Add to Wishlist">
-                                                                    <span class="pe-7s-like"></span></a></li>
-                                                        </ul>
                                                     </div>
                                                 </figcaption>
                                             </figure>

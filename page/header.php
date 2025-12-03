@@ -111,7 +111,11 @@
                                         <li><a href="index.php?page=login">Вход</a></li>
                                         <li><a href="index.php?page=register">Регистрация</a></li>
                                     <?php else: ?>
-                                        <li><a href="index.php?page=my-account"><?php echo $_SESSION['user']['name'] . ' ' . $_SESSION['user']['surname'] ?></a></li>
+                                        <?php if ($_SESSION['user']['is_admin'] == 0): ?>
+                                            <li><a href="index.php?page=my-account"><?php echo $_SESSION['user']['name'] . ' ' . $_SESSION['user']['surname'] ?></a></li>
+                                        <?php else: ?>
+                                            <li><a href="index.php?page=admin-account"><?php echo $_SESSION['user']['name'] . ' ' . $_SESSION['user']['surname'] ?></a></li>
+                                        <?php endif ?>
                                     <?php endif ?>
                                 </ul>
                             </div>
@@ -184,7 +188,7 @@
                         <p><?php echo $product_in_cart['qty'] ?> x <span> <?php echo $product_in_cart['price'] ?> р. </span></p>
                     </div>
                     <div class="cart_remove">
-                        <a href="#"><i class="ion-android-close"></i></a>
+                        <a href="event_cart/remove_cart.php?id_product_del=<?php echo $product_in_cart['id_product'] ?>"><i class="ion-android-close"></i></a>
                     </div>
                 </div>
 
@@ -201,10 +205,10 @@
         </div>
         <div class="mini_cart_footer">
             <div class="cart_button">
-                <a href="cart.html">Открыть корзину</a>
+                <a href="index.php?page=cart">Открыть корзину</a>
             </div>
             <div class="cart_button">
-                <a href="checkout.html"><i class="fa fa-sign-in"></i>Перейти к оформлению</a>
+                <a href="index.php?page=checkout"><i class="fa fa-sign-in"></i>Перейти к оформлению</a>
             </div>
         </div>
     </div>

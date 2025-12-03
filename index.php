@@ -134,9 +134,18 @@ if (isset($_GET['id_product'])) {
     $sql_product_id = mysqli_fetch_assoc($sql_product_id);
 };
 
-// Корзина
+// Страница всех заказов пользователя
 
-
+$id_user = (int)$_SESSION['user']['id_user'];
+$sql_orders = $link->query(" SELECT o.id_order, MIN(o.date) AS date, MIN(o.status) AS status, SUM(o.amount) AS items_count, SUM(o.amount * p.price) AS total
+FROM Orders o JOIN Products p ON p.id_product = o.id_product WHERE o.id_user = $id_user GROUP BY o.id_order ORDER BY date DESC, id_order DESC ");
+$sql_order_items = $link->query(" SELECT o.id_order, o.amount, o.id_product, p.name_product, p.photo, p.price FROM Orders o JOIN Products p ON p.id_product = o.id_product WHERE o.id_user = $id_user ORDER BY o.id_order DESC, p.name_product ");
+$order_items = [];
+if ($sql_order_items && $sql_order_items->num_rows) {
+    foreach ($sql_order_items as $it) {
+        $order_items[$it['id_order']][] = $it;
+    }
+}
 
 // РОУТЕР
 $routers = [
@@ -147,6 +156,9 @@ $routers = [
     'login' => 'page/login.php',
     'register' => 'page/register.php',
     'my-account' => 'page/my-account.php',
+    'admin-account' => 'page/admin-account.php',
+    'cart' => 'page/cart.php',
+    'checkout' => 'page/checkout.php'
 ];
 
 if (!isset($_GET['page'])) {

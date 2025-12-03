@@ -9985,3 +9985,27 @@ span.ui-slider-handle.ui-corner-all.ui-state-default {
   padding-left: 10px;
   padding-right: 10px;
 }
+
+.your-order-table .cart-product-name {
+  text-align: left;
+}
+
+.your-order-table .cart-product-total {
+  text-align: right;
+}
+
+.your-order-table thead th.cart-product-name {
+  text-align: left;
+}
+
+.your-order-table thead th.cart-product-total,
+.your-order-table tfoot th,
+.your-order-table tfoot td {
+  text-align: right;
+}
+
+.form_order {
+  display: flex;
+  flex-direction: row;
+  gap: 10%;
+}

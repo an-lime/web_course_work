@@ -19,115 +19,65 @@
     <div class="container">
         <div class="row">
             <div class="col-12">
-                <form action="#">
-                    <div class="table-content table-responsive">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th class="product_remove">remove</th>
-                                    <th class="product-thumbnail">images</th>
-                                    <th class="cart-product-name">Product</th>
-                                    <th class="product-price">Unit Price</th>
-                                    <th class="product-quantity">Quantity</th>
-                                    <th class="product-subtotal">Total</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="product_remove">
-                                        <a href="#">
-                                            <i class="pe-7s-close" title="Remove"></i>
-                                        </a>
-                                    </td>
-                                    <td class="product-thumbnail">
-                                        <a href="#">
-                                            <img src="assets/img/product/mini-product/product1.png"
-                                                alt="Cart Thumbnail">
-                                        </a>
-                                    </td>
-                                    <td class="product-name"><a href="#">Products Name Here</a>
-                                    </td>
-                                    <td class="product-price"><span class="amount">$22.00</span></td>
-                                    <td class="product_pro_button quantity">
-                                        <div class="pro-qty border">
-                                            <input type="text" value="1">
-                                        </div>
-                                    </td>
-                                    <td class="product-subtotal"><span class="amount">$22.00</span></td>
-                                </tr>
-                                <tr>
-                                    <td class="product_remove">
-                                        <a href="#">
-                                            <i class="pe-7s-close" title="Remove"></i>
-                                        </a>
-                                    </td>
-                                    <td class="product-thumbnail">
-                                        <a href="#">
-                                            <img src="assets/img/product/mini-product/product2.png"
-                                                alt="Cart Thumbnail">
-                                        </a>
-                                    </td>
-                                    <td class="product-name"><a href="#">Lorem, ipsum dolor.</a></td>
-                                    <td class="product-price"><span class="amount">$24.00</span></td>
-                                    <td class="product_pro_button quantity">
-                                        <div class="pro-qty border">
-                                            <input type="text" value="1">
-                                        </div>
-                                    </td>
-                                    <td class="product-subtotal"><span class="amount">$24.00</span></td>
-                                </tr>
-                                <tr>
-                                    <td class="product_remove">
-                                        <a href="#">
-                                            <i class="pe-7s-close" title="Remove"></i>
-                                        </a>
-                                    </td>
-                                    <td class="product-thumbnail">
-                                        <a href="#">
-                                            <img src="assets/img/product/mini-product/product3.png"
-                                                alt="Cart Thumbnail">
-                                        </a>
-                                    </td>
-                                    <td class="product-name"><a href="#">Praesentium vero nesciu.</a></td>
-                                    <td class="product-price"><span class="amount">$28.00</span></td>
-                                    <td class="product_pro_button quantity">
-                                        <div class="pro-qty border">
-                                            <input type="text" value="1">
-                                        </div>
-                                    </td>
-                                    <td class="product-subtotal"><span class="amount">$28.00</span></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            <div class="coupon-all">
-                                <div class="coupon">
-                                    <input id="coupon_code" class="input-text" name="coupon_code" value=""
-                                        placeholder="Coupon code" type="text">
-                                    <input class="button mt-xxs-30" name="apply_coupon" value="Apply coupon"
-                                        type="submit">
-                                </div>
-                                <div class="coupon2">
-                                    <input class="button" name="update_cart" value="Update cart" type="submit">
+                <?php if ($total_price != 0): ?>
+                    <form action="#">
+                        <div class="table-content table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th class="product_remove">Удалить</th>
+                                        <th class="product-thumbnail">Изображение</th>
+                                        <th class="cart-product-name">Товар</th>
+                                        <th class="product-price">Цена за ед.</th>
+                                        <th class="product-quantity">Количество</th>
+                                        <th class="product-subtotal">Сумма</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php foreach ($sql_product_in_cart as $product_in_cart): ?>
+                                        <tr>
+                                            <td class="product_remove">
+                                                <a href="event_cart/remove_cart.php?id_product_del=<?php echo $product_in_cart['id_product'] ?>">
+                                                    <i class="pe-7s-close" title="Remove"></i>
+                                                </a>
+                                            </td>
+                                            <td class="product-thumbnail">
+                                                <a href="index.php?page=product&id_product=<?php echo $product_in_cart['id_product'] ?>">
+                                                    <img src="<?php echo $product_in_cart['photo'] ?>"
+                                                        alt="Cart Thumbnail">
+                                                </a>
+                                            </td>
+                                            <td class="product-name"><a href="index.php?page=product&id_product=<?php echo $product_in_cart['id_product'] ?>"><?php echo $product_in_cart['name_product'] ?></a>
+                                            </td>
+                                            <td class="product-price"><span class="amount"><?php echo $product_in_cart['price'] ?> р.</span></td>
+                                            <td class="product_pro_button quantity">
+                                                <div class="pro-qty border">
+                                                    <input type="text" value="<?php echo $product_in_cart['qty'] ?>">
+                                                </div>
+                                            </td>
+                                            <td class="product-subtotal"><span class="amount"><?php echo $product_in_cart['qty'] * $product_in_cart['price'] ?> р.</span></td>
+                                        </tr>
+
+                                    <?php endforeach; ?>
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-5 ml-auto">
+                                <div class="cart-page-total">
+                                    <h2>Итоги</h2>
+                                    <ul>
+                                        <li>Всего к оплате: <span><?php echo $total_price ?> р.</span></li>
+                                    </ul>
+                                    <a href="index.php?page=checkout">Оформить заказ</a>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-5 ml-auto">
-                            <div class="cart-page-total">
-                                <h2>Cart totals</h2>
-                                <ul>
-                                    <li>Subtotal <span>$80.00</span></li>
-                                    <li>Total <span>$80.00</span></li>
-                                </ul>
-                                <a href="#">Proceed to checkout</a>
-                            </div>
-                        </div>
-                    </div>
-                </form>
+                    </form>
+                <?php else: ?>
+                    <h3>Корзина пуста!</h3>
+                <?php endif ?>
             </div>
         </div>
     </div>
