@@ -1,3 +1,41 @@
+<?php
+
+// ORDER_ITEMS
+$payload = [];
+if (!empty($order_items)) {
+    foreach ($order_items as $oid => $items) {
+        foreach ($items as $it) {
+            $payload[$oid][] = [
+                'name'   => $it['name_product'],
+                'photo'  => $it['photo'],
+                'price'  => (int)$it['price'],
+                'amount' => (int)$it['amount'],
+                'sum'    => (int)$it['price'] * (int)$it['amount'],
+                'id'     => (int)$it['id_product'],
+            ];
+        }
+    }
+}
+$ORDER_ITEMS_JSON = json_encode($payload, JSON_UNESCAPED_UNICODE);
+
+// ORDER_META
+$meta = [];
+if ($sql_orders && $sql_orders->num_rows > 0) {
+    mysqli_data_seek($sql_orders, 0);
+    foreach ($sql_orders as $ord) {
+        $meta[$ord['id_order']] = [
+            'date'  => date('d.m.Y H:i', strtotime($ord['date'])),
+            'status' => $ord['status'],
+            'total' => (int)$ord['total'],
+            'count' => (int)$ord['items_count'],
+        ];
+    }
+    // вернем указатель, чтобы ниже можно было ещё раз пройти foreach по $sql_orders
+    mysqli_data_seek($sql_orders, 0);
+}
+$ORDER_META_JSON = json_encode($meta, JSON_UNESCAPED_UNICODE);
+?>
+
 <!-- breadcrumbs area start -->
 <div class="breadcrumbs_aree breadcrumbs_bg mb-110" data-bgimg="assets/img/others/breadcrumbs-bg.png">
     <div class="container">
@@ -187,46 +225,52 @@
 </div>
 
 <script>
-    var ORDER_ITEMS = <?php $payload = [];
-                        foreach ($order_items as $oid => $items) {
-                            foreach ($items as $it) {
-                                $payload[$oid][] = ['name' => $it['name_product'], 'photo' => $it['photo'], 'price' => (int)$it['price'], 'amount' => (int)$it['amount'], 'sum' => (int)$it['price'] * (int)$it['amount'], 'id' => (int)$it['id_product'],];
-                            }
-                        }
-                        echo json_encode($payload, JSON_UNESCAPED_UNICODE);
-                        ?>;
-    var ORDER_META = <?php mysqli_data_seek($sql_orders, 0);
-                        $meta = [];
-                        foreach ($sql_orders as $ord) {
-                            $meta[$ord['id_order']] = ['date' => date('d.m.Y H:i', strtotime($ord['date'])), 'status' => $ord['status'], 'total' => (int)$ord['total'], 'count' => (int)$ord['items_count']];
-                        }
-                        echo json_encode($meta, JSON_UNESCAPED_UNICODE);
-                        ?>;
+    const ORDER_ITEMS = <?php echo $ORDER_ITEMS_JSON; ?>;
+    const ORDER_META = <?php echo $ORDER_META_JSON; ?>;
+</script>
+
+<script>
     document.addEventListener('DOMContentLoaded', function() {
-        var modalEl = document.getElementById('orderModal');
+        const modalEl = document.getElementById('orderModal');
         if (!modalEl) return;
-        var modal = new bootstrap.Modal(modalEl);
-        document.querySelectorAll('.btn-order-view').forEach(function(btn) {
+
+        const modal = new bootstrap.Modal(modalEl);
+        const buttons = document.querySelectorAll('.btn-order-view');
+        if (!buttons.length) return;
+
+        buttons.forEach(function(btn) {
             btn.addEventListener('click', function() {
-                var id = this.getAttribute('data-id');
-                var items = ORDER_ITEMS[id] || [];
-                var meta = ORDER_META[id] || {
+                const id = this.getAttribute('data-id');
+                const items = ORDER_ITEMS[id] || [];
+                const meta = ORDER_META[id] || {
                     date: '',
                     status: '',
                     total: 0,
                     count: 0
                 };
+
+                // шапка модалки
                 document.getElementById('m-order-id').textContent = '#' + id;
                 document.getElementById('m-order-date').textContent = meta.date;
                 document.getElementById('m-order-status').textContent = meta.status;
-                document.getElementById('m-order-total').textContent = meta.total + ' р. за ' + meta.count + ' шт.';
-                var tbody = document.getElementById('m-order-items');
+                document.getElementById('m-order-total').textContent =
+                    meta.total + ' р. за ' + meta.count + ' шт.';
+
+                // товары
+                const tbody = document.getElementById('m-order-items');
                 tbody.innerHTML = '';
+
                 items.forEach(function(it) {
-                    var tr = document.createElement('tr');
-                    tr.innerHTML = '<td><img src="' + it.photo + '" alt="" style="width:60px;height:auto;"></td>' + '<td><a href="index.php?page=product&id_product=' + it.id + '">' + it.name + '</a></td>' + '<td class="text-center">' + it.amount + '</td>' + '<td class="text-end">' + it.price + ' р.</td>' + '<td class="text-end">' + it.sum + ' р.</td>';
+                    const tr = document.createElement('tr');
+                    tr.innerHTML =
+                        '<td><img src="' + it.photo + '" alt="" style="width:60px;height:auto;"></td>' +
+                        '<td><a href="index.php?page=product&id_product=' + it.id + '">' + it.name + '</a></td>' +
+                        '<td class="text-center">' + it.amount + '</td>' +
+                        '<td class="text-end">' + it.price + ' р.</td>' +
+                        '<td class="text-end">' + it.sum + ' р.</td>';
                     tbody.appendChild(tr);
                 });
+
                 modal.show();
             });
         });

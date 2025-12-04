@@ -137,13 +137,89 @@ if (isset($_GET['id_product'])) {
 // Страница всех заказов пользователя
 
 $id_user = (int)$_SESSION['user']['id_user'];
-$sql_orders = $link->query(" SELECT o.id_order, MIN(o.date) AS date, MIN(o.status) AS status, SUM(o.amount) AS items_count, SUM(o.amount * p.price) AS total
-FROM Orders o JOIN Products p ON p.id_product = o.id_product WHERE o.id_user = $id_user GROUP BY o.id_order ORDER BY date DESC, id_order DESC ");
-$sql_order_items = $link->query(" SELECT o.id_order, o.amount, o.id_product, p.name_product, p.photo, p.price FROM Orders o JOIN Products p ON p.id_product = o.id_product WHERE o.id_user = $id_user ORDER BY o.id_order DESC, p.name_product ");
+$sql_orders = $link->query("
+    SELECT 
+        o.id_order,
+        MIN(o.date) AS date,
+        MIN(o.status) AS status,
+        SUM(o.amount) AS items_count,
+        SUM(o.amount * p.price) AS total
+    FROM Orders o 
+    JOIN Products p ON p.id_product = o.id_product 
+    WHERE o.id_user = $id_user 
+    GROUP BY o.id_order 
+    ORDER BY date DESC, id_order DESC
+");
+
+// товары всех заказов
+$sql_order_items = $link->query("
+    SELECT 
+        o.id_order,
+        o.amount,
+        o.id_product,
+        p.name_product,
+        p.photo,
+        p.price
+    FROM Orders o 
+    JOIN Products p ON p.id_product = o.id_product 
+    WHERE o.id_user = $id_user 
+    ORDER BY o.id_order DESC, p.name_product
+");
+
+// сгруппируем товары по id_order
 $order_items = [];
 if ($sql_order_items && $sql_order_items->num_rows) {
     foreach ($sql_order_items as $it) {
         $order_items[$it['id_order']][] = $it;
+    }
+}
+
+// АДМИН ПАНЕЛЬ
+
+$sql_users = $link->query("
+    SELECT * 
+    FROM Users 
+    ORDER BY 
+        CASE WHEN id_user = $id_user THEN 0 ELSE 1 END, 
+        is_admin DESC,
+        id_user ASC
+");
+
+// все заказы с данными пользователя
+$sql_orders_admin = $link->query("
+    SELECT 
+        o.id_order,
+        MIN(o.date)   AS date,
+        MIN(o.status) AS status,
+        SUM(o.amount)               AS items_count,
+        SUM(o.amount * p.price)     AS total,
+        u.email,
+        u.name,
+        u.surname
+    FROM Orders o
+    JOIN Products p ON p.id_product = o.id_product
+    JOIN Users u    ON u.id_user    = o.id_user
+    GROUP BY o.id_order, u.email, u.name, u.surname
+    ORDER BY date DESC, o.id_order DESC
+");
+
+$sql_order_items_admin = $link->query("
+    SELECT 
+        o.id_order,
+        o.amount,
+        o.id_product,
+        p.name_product,
+        p.photo,
+        p.price
+    FROM Orders o
+    JOIN Products p ON p.id_product = o.id_product
+    ORDER BY o.id_order DESC, p.name_product
+");
+
+$order_items_admin = [];
+if ($sql_order_items_admin && $sql_order_items_admin->num_rows) {
+    foreach ($sql_order_items_admin as $it) {
+        $order_items_admin[$it['id_order']][] = $it;
     }
 }
 
