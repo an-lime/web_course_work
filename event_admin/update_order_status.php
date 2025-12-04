@@ -2,17 +2,12 @@
 require '../connect.php';
 session_start();
 
-// здесь по-хорошему проверка, что пользователь админ
-
 $id_order = (int)$_POST['id_order'];
-$status   = mysqli_real_escape_string($link, $_POST['status']);
+$status   = $_POST['status'];
 
-$allowed = ['Новый', 'В процессе', 'Выполнен', 'Отменён'];
-if (!in_array($status, $allowed, true)) {
-    header('Location: ../index.php?page=admin-account&tab=orders');
-    exit;
-}
-
+// обновление статуса
 $link->query("UPDATE Orders SET status = '$status' WHERE id_order = $id_order");
 
-header('Location: ../index.php?page=admin-account&tab=orders');
+// редирект обратно на вкладку заказов
+header('Location: ../index.php?page=admin-account');
+exit;

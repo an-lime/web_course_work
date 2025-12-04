@@ -185,26 +185,60 @@ $sql_users = $link->query("
         id_user ASC
 ");
 
-// все заказы с данными пользователя
-$sql_orders_admin = $link->query("
-    SELECT 
+// ----- АДМИН: фильтры заказов -----
+$order_admin_f_user   = isset($_GET['order_admin_user'])   ? (int)$_GET['order_admin_user']   : 0;
+$order_admin_f_date   = isset($_GET['order_admin_date'])   ? $_GET['order_admin_date']        : '';
+$order_admin_f_status = isset($_GET['order_admin_status']) ? $_GET['order_admin_status']      : '';
+
+// пользователи для фильтра
+$order_admin_users_for_filter = $link->query("
+    SELECT id_user, surname, name
+    FROM Users
+    ORDER BY surname, name
+");
+
+// ----- АДМИН: агрегированный список заказов -----
+$order_admin_where = [];
+
+if ($order_admin_f_user > 0) {
+    $order_admin_where[] = "o.id_user = $order_admin_f_user";
+}
+
+if ($order_admin_f_date !== '') {
+    $order_admin_date_safe = mysqli_real_escape_string($link, $order_admin_f_date);
+    $order_admin_where[] = "DATE(o.date) = '$order_admin_date_safe'";
+}
+
+if ($order_admin_f_status !== '') {
+    $order_admin_status_safe = mysqli_real_escape_string($link, $order_admin_f_status);
+    $order_admin_where[] = "o.status = '$order_admin_status_safe'";
+}
+
+$order_admin_where_sql = $order_admin_where
+    ? 'WHERE ' . implode(' AND ', $order_admin_where)
+    : '';
+
+$order_admin_sql_orders = $link->query("
+    SELECT
         o.id_order,
         MIN(o.date)   AS date,
         MIN(o.status) AS status,
-        SUM(o.amount)               AS items_count,
-        SUM(o.amount * p.price)     AS total,
+        SUM(o.amount)           AS items_count,
+        SUM(o.amount * p.price) AS total,
         u.email,
         u.name,
         u.surname
     FROM Orders o
     JOIN Products p ON p.id_product = o.id_product
-    JOIN Users u    ON u.id_user    = o.id_user
+    JOIN Users   u  ON u.id_user    = o.id_user
+    $order_admin_where_sql
     GROUP BY o.id_order, u.email, u.name, u.surname
     ORDER BY date DESC, o.id_order DESC
 ");
 
-$sql_order_items_admin = $link->query("
-    SELECT 
+// ----- АДМИН: товары всех заказов -----
+$order_admin_sql_order_items = $link->query("
+    SELECT
         o.id_order,
         o.amount,
         o.id_product,
@@ -216,12 +250,25 @@ $sql_order_items_admin = $link->query("
     ORDER BY o.id_order DESC, p.name_product
 ");
 
-$order_items_admin = [];
-if ($sql_order_items_admin && $sql_order_items_admin->num_rows) {
-    foreach ($sql_order_items_admin as $it) {
-        $order_items_admin[$it['id_order']][] = $it;
+$order_admin_items = [];
+if ($order_admin_sql_order_items && $order_admin_sql_order_items->num_rows) {
+    foreach ($order_admin_sql_order_items as $it) {
+        $order_admin_items[$it['id_order']][] = $it;
     }
 }
+
+// АДМИН: каталог продуктов
+$admin_products = $link->query("
+    SELECT p.*, c.name_category, s.name_size
+    FROM Products p
+    LEFT JOIN Categories c ON c.id_category = p.category
+    LEFT JOIN Sizes s      ON s.id_size    = p.size
+    ORDER BY p.id_product DESC
+");
+
+// для селектов в формах
+$admin_categories = $link->query("SELECT id_category, name_category FROM Categories ORDER BY name_category");
+$admin_sizes      = $link->query("SELECT id_size, name_size FROM Sizes ORDER BY name_size");
 
 // РОУТЕР
 $routers = [

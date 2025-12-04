@@ -31,9 +31,9 @@
                                 <label>Пароль</label>
                                 <input name="password" type="password" placeholder="Пароль" required>
                             </div>
-                            <div class="col-sm-4 pt-1 mt-md-0">
-                                <div class="forgotton-password_info">
-                                    <a href="#"> Забыли пароль?</a>
+                            <div class="col-sm-12 mb-0">
+                                <div class="have-account">
+                                    <p class="text font-14">Нет аккаунта? <a class="link text-main text-decoration-underline  fw-500" href="index.php?page=register">Зарегистрироваться</a></p>
                                 </div>
                             </div>
 

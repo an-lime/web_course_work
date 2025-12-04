@@ -77,16 +77,17 @@
 
                             <?php endif ?>
 
-                            <div id="login-btn" class="col-12">
-                                <button type="submit" id="register-form-btn" class="btn custom-btn md-size">Зарегистрироваться</button>
-                            </div>
-
                             <div class="col-sm-12 mb-0">
                                 <div class="have-account">
                                     <p class="text font-14">Есть аккаунт? <a class="link text-main text-decoration-underline  fw-500" href="index.php?page=login">Войти</a></p>
                                 </div>
                             </div>
-                            
+
+                            <div id="login-btn" class="col-12 pt-5">
+                                <button type="submit" id="register-form-btn" class="btn custom-btn md-size">Зарегистрироваться</button>
+                            </div>
+
+
                         </div>
                     </div>
                 </form>

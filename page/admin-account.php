@@ -118,17 +118,6 @@
                         <div class="myaccount-content">
                             <h4 class="small-title mb-4">Заказы и заявки</h4>
 
-                            <!-- фильтры пока статичные, можно позже сделать рабочими -->
-
-                            <?php
-                            // для фильтра по пользователю
-                            $users_for_filter = $link->query("SELECT id_user, surname, name FROM Users ORDER BY surname, name");
-
-                            // читаем выбранные значения
-                            $f_user  = isset($_GET['user'])  ? (int)$_GET['user'] : 0;
-                            $f_date  = isset($_GET['date'])  ? $_GET['date']      : '';
-                            $f_status = isset($_GET['status']) ? $_GET['status']  : '';
-                            ?>
                             <div class="filter-section mb-3">
                                 <form method="get">
                                     <input type="hidden" name="page" value="admin-account">
@@ -136,31 +125,35 @@
                                     <div class="row g-2">
                                         <div class="col-md-3">
                                             <label class="form-label fw-bold">Пользователь</label>
-                                            <select class="form-select" name="user">
+                                            <select class="form-select" name="order_admin_user">
                                                 <option value="0">Все пользователи</option>
-                                                <?php foreach ($users_for_filter as $u): ?>
-                                                    <option value="<?php echo $u['id_user']; ?>"
-                                                        <?php if ($f_user === (int)$u['id_user']) echo 'selected'; ?>>
-                                                        <?php echo $u['surname'] . ' ' . $u['name']; ?>
-                                                    </option>
-                                                <?php endforeach; ?>
+                                                <?php if ($order_admin_users_for_filter): ?>
+                                                    <?php foreach ($order_admin_users_for_filter as $u): ?>
+                                                        <option value="<?php echo $u['id_user']; ?>"
+                                                            <?php if ($order_admin_f_user === (int)$u['id_user']) echo 'selected'; ?>>
+                                                            <?php echo $u['surname'] . ' ' . $u['name']; ?>
+                                                        </option>
+                                                    <?php endforeach; ?>
+                                                <?php endif; ?>
                                             </select>
                                         </div>
                                         <div class="col-md-3">
                                             <label class="form-label fw-bold">Дата</label>
-                                            <input type="date" class="form-control" name="date"
-                                                value="<?php echo htmlspecialchars($f_date); ?>">
+                                            <input type="date"
+                                                class="form-control"
+                                                name="order_admin_date"
+                                                value="<?php echo htmlspecialchars($order_admin_f_date); ?>">
                                         </div>
                                         <div class="col-md-3">
                                             <label class="form-label fw-bold">Статус</label><br>
-                                            <select class="form-select" name="status">
+                                            <select class="form-select" name="order_admin_status">
                                                 <option value="">Все статусы</option>
                                                 <?php
-                                                $statuses = ['Новый', 'В процессе', 'Выполнен', 'Отменён'];
-                                                foreach ($statuses as $st):
+                                                $order_admin_statuses = ['Новый', 'В процессе', 'Выполнен', 'Отменён'];
+                                                foreach ($order_admin_statuses as $st):
                                                 ?>
                                                     <option value="<?php echo $st; ?>"
-                                                        <?php if ($f_status === $st) echo 'selected'; ?>>
+                                                        <?php if ($order_admin_f_status === $st) echo 'selected'; ?>>
                                                         <?php echo $st; ?>
                                                     </option>
                                                 <?php endforeach; ?>
@@ -186,24 +179,24 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php if ($sql_orders_admin && $sql_orders_admin->num_rows > 0): ?>
-                                            <?php foreach ($sql_orders_admin as $order): ?>
+                                        <?php if ($order_admin_sql_orders && $order_admin_sql_orders->num_rows > 0): ?>
+                                            <?php foreach ($order_admin_sql_orders as $order_admin_row): ?>
                                                 <tr>
-                                                    <td>#<?php echo $order['id_order']; ?></td>
-                                                    <td><?php echo $order['surname'] . ' ' . $order['name']; ?></td>
-                                                    <td><?php echo date('d.m.Y H:i', strtotime($order['date'])); ?></td>
-                                                    <td><?php echo (int)$order['total']; ?> ₽ за <?php echo (int)$order['items_count']; ?> шт.</td>
+                                                    <td>#<?php echo $order_admin_row['id_order']; ?></td>
+                                                    <td><?php echo $order_admin_row['surname'] . ' ' . $order_admin_row['name']; ?></td>
+                                                    <td><?php echo date('d.m.Y H:i', strtotime($order_admin_row['date'])); ?></td>
+                                                    <td><?php echo (int)$order_admin_row['total']; ?> ₽ за <?php echo (int)$order_admin_row['items_count']; ?> шт.</td>
                                                     <td>
                                                         <?php
-                                                        $statusClass = [
+                                                        $order_admin_statusClass = [
                                                             'Новый'      => 'bg-primary',
                                                             'В процессе' => 'bg-warning',
                                                             'Выполнен'   => 'bg-success',
                                                             'Отменён'    => 'bg-danger'
-                                                        ][$order['status']] ?? 'bg-secondary';
+                                                        ][$order_admin_row['status']] ?? 'bg-secondary';
                                                         ?>
-                                                        <span class="badge <?php echo $statusClass; ?> status-badge">
-                                                            <?php echo $order['status']; ?>
+                                                        <span class="badge <?php echo $order_admin_statusClass; ?> status-badge">
+                                                            <?php echo $order_admin_row['status']; ?>
                                                         </span>
                                                     </td>
                                                     <td>
@@ -211,15 +204,14 @@
                                                             class="btn btn-sm btn-outline-primary action-btn btn-admin-order-view"
                                                             data-bs-toggle="modal"
                                                             data-bs-target="#adminOrderModal"
-                                                            data-id="<?php echo $order['id_order']; ?>">Просмотр</button>
+                                                            data-id="<?php echo $order_admin_row['id_order']; ?>">Просмотр</button>
 
                                                         <button
                                                             class="btn btn-sm btn-outline-success action-btn btn-admin-order-status"
                                                             data-bs-toggle="modal"
                                                             data-bs-target="#adminStatusModal"
-                                                            data-id="<?php echo $order['id_order']; ?>"
-                                                            data-status="<?php echo $order['status']; ?>">Изменить статус</button>
-
+                                                            data-id="<?php echo $order_admin_row['id_order']; ?>"
+                                                            data-status="<?php echo $order_admin_row['status']; ?>">Изменить статус</button>
                                                     </td>
                                                 </tr>
                                             <?php endforeach; ?>
@@ -229,6 +221,7 @@
                                             </tr>
                                         <?php endif; ?>
                                     </tbody>
+
                                 </table>
                             </div>
                         </div>
@@ -244,9 +237,12 @@
                                     <h5>Товары / Услуги</h5>
                                 </div>
                                 <div class="col-md-6 text-end">
-                                    <button class="btn btn-success btn-lg">
+                                    <button class="btn btn-success btn-lg"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#productCreateModal">
                                         <i class="fa fa-plus me-2"></i>Добавить позицию
                                     </button>
+
                                 </div>
                             </div>
                             <div class="table-responsive">
@@ -257,23 +253,47 @@
                                             <th>Название</th>
                                             <th>Цена</th>
                                             <th>Категория</th>
-                                            <th>Статус</th>
                                             <th>Действия</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>#001</td>
-                                            <td>Консультация специалиста</td>
-                                            <td>2 500 ₽</td>
-                                            <td>Услуги</td>
-                                            <td><span class="badge bg-success status-badge">Активен</span></td>
-                                            <td>
-                                                <a href="#" class="btn btn-sm btn-outline-primary action-btn">Редактировать</a>
-                                                <a href="#" class="btn btn-sm btn-outline-danger action-btn">Удалить</a>
-                                            </td>
-                                        </tr>
+                                        <?php if ($admin_products && $admin_products->num_rows > 0): ?>
+                                            <?php foreach ($admin_products as $prod): ?>
+                                                <tr>
+                                                    <td>#<?php echo $prod['id_product']; ?></td>
+                                                    <td><?php echo htmlspecialchars($prod['name_product']); ?></td>
+                                                    <td><?php echo (int)$prod['price']; ?> ₽</td>
+                                                    <td><?php echo htmlspecialchars($prod['name_category']); ?></td>
+                                                    <td>
+                                                        <button
+                                                            class="btn btn-sm btn-outline-primary action-btn btn-product-edit"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#productEditModal"
+                                                            data-id="<?php echo $prod['id_product']; ?>"
+                                                            data-name="<?php echo htmlspecialchars($prod['name_product'], ENT_QUOTES); ?>"
+                                                            data-price="<?php echo (int)$prod['price']; ?>"
+                                                            data-category="<?php echo (int)$prod['category']; ?>"
+                                                            data-size="<?php echo (int)$prod['size']; ?>"
+                                                            data-short="<?php echo htmlspecialchars($prod['short_description'], ENT_QUOTES); ?>"
+                                                            data-desc="<?php echo htmlspecialchars($prod['description'], ENT_QUOTES); ?>"
+                                                            data-photo="<?php echo htmlspecialchars($prod['photo'], ENT_QUOTES); ?>">Редактировать</button>
+
+                                                        <button
+                                                            class="btn btn-sm btn-outline-danger action-btn btn-product-delete"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#productDeleteModal"
+                                                            data-id="<?php echo $prod['id_product']; ?>"
+                                                            data-name="<?php echo htmlspecialchars($prod['name_product'], ENT_QUOTES); ?>">Удалить</button>
+                                                    </td>
+                                                </tr>
+                                            <?php endforeach; ?>
+                                        <?php else: ?>
+                                            <tr>
+                                                <td colspan="6" class="text-center text-muted py-3">Позиций пока нет</td>
+                                            </tr>
+                                        <?php endif; ?>
                                     </tbody>
+
                                 </table>
                             </div>
                         </div>
@@ -284,6 +304,7 @@
     </div>
 </div>
 
+<!-- Модалка редактирования пользователя -->
 <div class="modal fade" id="editUserModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <form class="modal-content" method="post" action="event_admin/update_user.php">
@@ -332,6 +353,7 @@
     </div>
 </div>
 
+<!-- Модалка удаления пользователя -->
 <div class="modal fade" id="deleteUserModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <form class="modal-content" method="post" action="event_admin/delete_user.php">
@@ -355,6 +377,7 @@
     </div>
 </div>
 
+<!-- Модалка просмотра заказа -->
 <div class="modal fade" id="adminOrderModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
@@ -383,6 +406,8 @@
     </div>
 </div>
 
+
+<!-- Модалка изменения статуса заказа -->
 <div class="modal fade" id="adminStatusModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <form class="modal-content" method="post" action="event_admin/update_order_status.php">
@@ -394,7 +419,7 @@
             <div class="modal-body">
                 <input type="hidden" name="id_order" id="s-order-id-input">
                 <div class="mb-3">
-                    <label class="form-label">Статус</label>
+                    <label class="form-label">Статус</label><br>
                     <select class="form-select" name="status" id="s-order-status">
                         <option value="Новый">Новый</option>
                         <option value="В процессе">В процессе</option>
@@ -412,64 +437,210 @@
     </div>
 </div>
 
+<!-- Модалка создания продукта -->
+
+<div class="modal fade" id="productCreateModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <form class="modal-content" method="post" action="event_admin/product_create.php" enctype="multipart/form-data">
+            <div class="modal-header">
+                <h5 class="modal-title">Новый товар / услуга</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label class="form-label">Название</label>
+                    <input type="text" name="name_product" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Цена</label>
+                    <input type="number" name="price" class="form-control" min="0" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Категория</label>
+                    <br>
+                    <select name="category" class="form-select" required>
+                        <?php mysqli_data_seek($admin_categories, 0);
+                        foreach ($admin_categories as $cat): ?>
+                            <option value="<?php echo $cat['id_category']; ?>"><?php echo $cat['name_category']; ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <br>
+                <div class="mb-3">
+                    <label class="form-label">Размер</label>
+                    <br>
+                    <select name="size" class="form-select" required>
+                        <?php mysqli_data_seek($admin_sizes, 0);
+                        foreach ($admin_sizes as $sz): ?>
+                            <option value="<?php echo $sz['id_size']; ?>"><?php echo $sz['name_size']; ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <br>
+                <div class="mb-3">
+                    <label class="form-label">Краткое описание</label>
+                    <input type="text" name="short_description" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Описание</label>
+                    <textarea name="description" class="form-control" rows="4"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Фото (URL или файл)</label>
+                    <input type="text" name="photo" class="form-control">
+                    <!-- если нужен upload файлом — добавь input type="file" и обработку -->
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                <button type="submit" class="btn btn-success">Создать</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Модалка редактирования продукта -->
+
+<div class="modal fade" id="productEditModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <form class="modal-content" method="post" action="event_admin/product_update.php">
+            <div class="modal-header">
+                <h5 class="modal-title">Редактирование позиции</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <input type="hidden" name="id_product" id="p-edit-id">
+                <div class="mb-3">
+                    <label class="form-label">Название</label>
+                    <input type="text" name="name_product" id="p-edit-name" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Цена</label>
+                    <input type="number" name="price" id="p-edit-price" class="form-control" min="0" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Категория</label>
+                    <select name="category" id="p-edit-category" class="form-select" required>
+                        <?php mysqli_data_seek($admin_categories, 0);
+                        foreach ($admin_categories as $cat): ?>
+                            <option value="<?php echo $cat['id_category']; ?>"><?php echo $cat['name_category']; ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Размер</label>
+                    <select name="size" id="p-edit-size" class="form-select" required>
+                        <?php mysqli_data_seek($admin_sizes, 0);
+                        foreach ($admin_sizes as $sz): ?>
+                            <option value="<?php echo $sz['id_size']; ?>"><?php echo $sz['name_size']; ?></option>
+                        <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Краткое описание</label>
+                    <input type="text" name="short_description" id="p-edit-short" class="form-control">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Описание</label>
+                    <textarea name="description" id="p-edit-desc" class="form-control" rows="4"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Фото (URL)</label>
+                    <input type="text" name="photo" id="p-edit-photo" class="form-control">
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                <button type="submit" class="btn btn-primary">Сохранить</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Модалка удаления продукта -->
+
+<div class="modal fade" id="productDeleteModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <form class="modal-content" method="post" action="event_admin/product_delete.php">
+            <div class="modal-header">
+                <h5 class="modal-title">Удаление позиции</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <input type="hidden" name="id_product" id="p-del-id">
+                <p>Удалить позицию <strong id="p-del-name"></strong>?</p>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                <button type="submit" class="btn btn-danger">Удалить</button>
+            </div>
+        </form>
+    </div>
+</div>
+
 
 
 
 <script>
-    const ADMIN_ORDER_ITEMS = <?php echo json_encode($order_items_admin, JSON_UNESCAPED_UNICODE); ?>;
+    const ADMIN_ORDER_ITEMS = <?php echo json_encode($order_admin_items, JSON_UNESCAPED_UNICODE); ?>;
 </script>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const modalEl = document.getElementById('adminOrderModal');
-        if (!modalEl) return;
 
-        const modal = new bootstrap.Modal(modalEl);
+        // ===== Просмотр заказа =====
+        const adminOrderModalEl = document.getElementById('adminOrderModal');
+        if (adminOrderModalEl) {
+            document.querySelectorAll('.btn-admin-order-view').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    const id = this.getAttribute('data-id');
+                    const items = ADMIN_ORDER_ITEMS[id] || [];
 
-        document.querySelectorAll('.btn-admin-order-view').forEach(function(btn) {
-            btn.addEventListener('click', function() {
-                const id = this.getAttribute('data-id');
-                const items = ADMIN_ORDER_ITEMS[id] || [];
+                    document.getElementById('a-order-id').textContent = id;
 
-                document.getElementById('a-order-id').textContent = id;
+                    const tbody = document.getElementById('a-order-items');
+                    tbody.innerHTML = '';
 
-                const tbody = document.getElementById('a-order-items');
-                tbody.innerHTML = '';
+                    let totalQty = 0;
+                    let totalSum = 0;
 
-                let totalQty = 0;
-                let totalSum = 0;
+                    items.forEach(function(it) {
+                        const qty = parseInt(it.amount, 10) || 0;
+                        const price = parseInt(it.price, 10) || 0;
+                        const sum = qty * price;
 
-                items.forEach(function(it) {
-                    const qty = parseInt(it.amount, 10) || 0;
-                    const price = parseInt(it.price, 10) || 0;
-                    const sum = qty * price;
+                        totalQty += qty;
+                        totalSum += sum;
 
-                    totalQty += qty;
-                    totalSum += sum;
+                        const tr = document.createElement('tr');
+                        tr.innerHTML =
+                            '<td><img src="' + it.photo + '" alt="" style="width:60px;height:auto;"></td>' +
+                            '<td>' + it.name_product + '</td>' +
+                            '<td class="text-center">' + qty + '</td>' +
+                            '<td class="text-end">' + price + ' ₽</td>' +
+                            '<td class="text-end">' + sum + ' ₽</td>';
+                        tbody.appendChild(tr);
+                    });
 
-                    const tr = document.createElement('tr');
-                    tr.innerHTML =
-                        '<td><img src="' + it.photo + '" alt="" style="width:60px;height:auto;"></td>' +
-                        '<td>' + it.name_product + '</td>' +
-                        '<td class="text-center">' + qty + '</td>' +
-                        '<td class="text-end">' + price + ' ₽</td>' +
-                        '<td class="text-end">' + sum + ' ₽</td>';
-                    tbody.appendChild(tr);
+                    // строка итога
+                    const trTotal = document.createElement('tr');
+                    trTotal.innerHTML =
+                        '<td colspan="2"><strong>Итого</strong></td>' +
+                        '<td class="text-center"><strong>' + totalQty + '</strong></td>' +
+                        '<td></td>' +
+                        '<td class="text-end"><strong>' + totalSum + ' ₽</strong></td>';
+                    tbody.appendChild(trTotal);
                 });
-
-                const trTotal = document.createElement('tr');
-                trTotal.innerHTML =
-                    '<td colspan="2"><strong>Итого</strong></td>' +
-                    '<td class="text-center"><strong>' + totalQty + '</strong></td>' +
-                    '<td></td>' +
-                    '<td class="text-end"><strong>' + totalSum + ' ₽</strong></td>';
-                tbody.appendChild(trTotal);
-
-                modal.show();
             });
-        });
+        }
 
-        // модалка смены статуса
+        // ===== Изменение статуса =====
         const statusModalEl = document.getElementById('adminStatusModal');
         if (statusModalEl) {
             statusModalEl.addEventListener('show.bs.modal', function(event) {
@@ -479,8 +650,38 @@
 
                 document.getElementById('s-order-id').textContent = id;
                 document.getElementById('s-order-id-input').value = id;
-                document.getElementById('s-order-status').value = st;
             });
         }
+
+        // Работа с продуктами
+
+        // редактирование
+        const editModal = document.getElementById('productEditModal');
+        if (editModal) {
+            editModal.addEventListener('show.bs.modal', function(event) {
+                const btn = event.relatedTarget;
+
+                document.getElementById('p-edit-id').value = btn.getAttribute('data-id');
+                document.getElementById('p-edit-name').value = btn.getAttribute('data-name');
+                document.getElementById('p-edit-price').value = btn.getAttribute('data-price');
+                document.getElementById('p-edit-category').value = btn.getAttribute('data-category');
+                document.getElementById('p-edit-size').value = btn.getAttribute('data-size');
+                document.getElementById('p-edit-short').value = btn.getAttribute('data-short');
+                document.getElementById('p-edit-desc').value = btn.getAttribute('data-desc');
+                document.getElementById('p-edit-photo').value = btn.getAttribute('data-photo');
+            });
+        }
+
+        // удаление
+        const delModal = document.getElementById('productDeleteModal');
+        if (delModal) {
+            delModal.addEventListener('show.bs.modal', function(event) {
+                const btn = event.relatedTarget;
+
+                document.getElementById('p-del-id').value = btn.getAttribute('data-id');
+                document.getElementById('p-del-name').textContent = btn.getAttribute('data-name');
+            });
+        }
+
     });
 </script>
