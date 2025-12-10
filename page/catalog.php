@@ -1,13 +1,13 @@
 <!-- breadcrumbs area start -->
-<div class="breadcrumbs_aree breadcrumbs_bg mb-100" data-bgimg="assets/img/others/breadcrumbs-bg.png">
+<div class="breadcrumbs_aree breadcrumbs_bg mb-100" data-bgimg="assets/img/bg/testimonial-bg.png">
     <div class="container">
         <div class="row">
             <div class="col-12">
                 <div class="breadcrumbs_text">
-                    <h1>Products</h1>
+                    <h1>Продукты</h1>
                     <ul>
-                        <li><a href="index.html">Home </a></li>
-                        <li> // Shop Left Sidebar</li>
+                        <li><a href="index.php?page=main">Главная </a></li>
+                        <li> // Каталог</li>
                     </ul>
                 </div>
             </div>
@@ -160,15 +160,6 @@
                                                 </div>
                                                 <figcaption class="product_list_content">
                                                     <h4><a href="index.php?page=product&id_product=<?php echo $product['id_product'] ?>"><?php echo $product['name_product'] ?></a></h4>
-                                                    <div class="product__ratting">
-                                                        <ul class="d-flex">
-                                                            <li><a href="#"><i class="ion-ios-star"></i></a></li>
-                                                            <li><a href="#"><i class="ion-ios-star"></i></a></li>
-                                                            <li><a href="#"><i class="ion-ios-star"></i></a></li>
-                                                            <li><a href="#"><i class="ion-ios-star"></i></a></li>
-                                                            <li><a href="#"><i class="ion-android-star-outline"></i></a></li>
-                                                        </ul>
-                                                    </div>
                                                     <div class="price_box">
                                                         <span class="current_price"><?php echo $product['price'] ?> р.</span>
                                                     </div>

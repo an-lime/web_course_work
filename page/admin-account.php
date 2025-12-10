@@ -1,12 +1,12 @@
 <!-- Breadcrumbs area start -->
-<div class="admin-breadcrumbs breadcrumbs_aree mb-110" data-bgimg="assets/img/others/breadcrumbs-bg.png">
+<div class="admin-breadcrumbs breadcrumbs_aree mb-110" data-bgimg="assets/img/bg/testimonial-bg.png">
     <div class="container">
         <div class="row">
             <div class="col-12">
                 <div class="breadcrumbs_text">
                     <h1>Админ панель</h1>
                     <ul>
-                        <li><a href="index.php">Главная</a></li>
+                        <li><a href="index.php?page=main">Главная</a></li>
                         <li>// Админ панель</li>
                     </ul>
                 </div>
@@ -682,6 +682,32 @@
                 document.getElementById('p-del-name').textContent = btn.getAttribute('data-name');
             });
         }
+
+        // редактирование пользователя
+        const editUserModal = document.getElementById('editUserModal');
+        if (editUserModal) {
+            editUserModal.addEventListener('show.bs.modal', function(event) {
+                const btn = event.relatedTarget;
+
+                document.getElementById('edit-id_user').value = btn.getAttribute('data-id');
+                document.getElementById('edit-email').value = btn.getAttribute('data-email');
+                document.getElementById('edit-name').value = btn.getAttribute('data-name');
+                document.getElementById('edit-surname').value = btn.getAttribute('data-surname');
+                document.getElementById('edit-is_admin').value = btn.getAttribute('data-isadmin');
+            });
+        }
+
+        // удаление пользователя
+        const deleteUserModal = document.getElementById('deleteUserModal');
+        if (deleteUserModal) {
+            deleteUserModal.addEventListener('show.bs.modal', function(event) {
+                const btn = event.relatedTarget;
+
+                document.getElementById('delete-id_user').value = btn.getAttribute('data-id');
+                document.getElementById('delete-email').textContent = btn.getAttribute('data-email');
+            });
+        }
+
 
     });
 </script>

@@ -281,7 +281,9 @@ $routers = [
     'my-account' => 'page/my-account.php',
     'admin-account' => 'page/admin-account.php',
     'cart' => 'page/cart.php',
-    'checkout' => 'page/checkout.php'
+    'checkout' => 'page/checkout.php',
+    'faq' => 'page/faq.php',
+    'contact' => 'page/contact.php',
 ];
 
 if (!isset($_GET['page'])) {

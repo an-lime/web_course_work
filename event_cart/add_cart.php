@@ -2,6 +2,11 @@
 require('../connect.php');
 session_start();
 
+if (!isset($_SESSION['user'])) {
+    $_SESSION['error_order'] = "Авторизуйтесь для оформления заказа";
+    header("Location: ../index.php?page=login");
+}
+
 $id_add  = (int)$_GET['id_product_add'];
 $id_user = (int)$_SESSION['user']['id_user'];
 $qty     = (int)$_GET['qty'];

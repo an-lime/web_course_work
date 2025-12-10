@@ -1,5 +1,5 @@
 <!-- breadcrumbs area start -->
-<div class="breadcrumbs_aree breadcrumbs_bg mb-110" data-bgimg="assets/img/others/breadcrumbs-bg.png">
+<div class="breadcrumbs_aree breadcrumbs_bg mb-110" data-bgimg="assets/img/bg/testimonial-bg.png">
     <div class="container">
         <div class="row">
             <div class="col-12">

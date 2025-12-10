@@ -146,9 +146,6 @@
                         <!--main menu end-->
                         <div class="header_account">
                             <ul class="d-flex">
-                                <li class="header_search"><a href="javascript:void(0)"><i class="pe-7s-search"></i></a>
-                                </li>
-                                <li class="header_wishlist"><a href="wishlist.html"><i class="pe-7s-like"></i></a></li>
                                 <li class="shopping_cart"><a href="javascript:void(0)"><i class="pe-7s-shopbag"></i></a>
                                     <span class="item_count">
                                         <?php echo (int)$sql_product_in_cart->num_rows; ?>
@@ -207,9 +204,11 @@
             <div class="cart_button">
                 <a href="index.php?page=cart">Открыть корзину</a>
             </div>
-            <div class="cart_button">
-                <a href="index.php?page=checkout"><i class="fa fa-sign-in"></i>Перейти к оформлению</a>
-            </div>
+            <?php if (isset($_SESSION['user']) and strlen($product_in_cart) > 0) : ?>
+                <div class="cart_button">
+                    <a href="index.php?page=checkout"><i class="fa fa-sign-in"></i>Перейти к оформлению</a>
+                </div>
+            <?php endif; ?>
         </div>
     </div>
     <!--mini cart end-->

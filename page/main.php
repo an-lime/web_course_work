@@ -6,13 +6,9 @@
             <div class="row align-items-center">
                 <div class="col-lg-6">
                     <div class="hero_content hero_content2">
-                        <h3 class="wow fadeInUp text-white" data-wow-delay="0.1s" data-wow-duration="1.1s"> Up To
-                            Sale <span> 50% Off</span> </h3>
-                        <h1 class="wow fadeInUp text-white" data-wow-delay="0.2s" data-wow-duration="1.2s">We Bake
-                            With <br>
-                            Pasion.</h1>
+                        <h1 class="wow fadeInUp text-white" data-wow-delay="0.2s" data-wow-duration="1.2s">Мы печём с душой</h1>
                         <a class="btn btn-link wow fadeInUp" data-wow-delay="0.3s" data-wow-duration="1.3s"
-                            href="shop-left-sidebar.html">Shop Now</a>
+                            href="index.php?page=catalog">В каталог</a>
                     </div>
                 </div>
             </div>
@@ -20,6 +16,60 @@
     </div>
 </div>
 <!--slider area end-->
+
+<section class="about-home py-5">
+    <div class="container">
+        <div class="row align-items-center g-4">
+            <div class="col-md-6">
+                <img src="assets/img/others/about-bakery.png" alt="Наша пекарня" class="img-fluid rounded">
+            </div>
+            <div class="col-md-6">
+                <h2 class="mb-3">О нашей пекарне</h2>
+                <p class="mb-3">
+                    Мы готовим выпечку и десерты по классическим рецептам из натуральных ингредиентов без
+                    готовых смесей и полуфабрикатов.
+                </p>
+                <p class="mb-3">
+                    Для нас важно, чтобы каждый заказ был свежим: мы выпекаем небольшими партиями
+                    и делаем продукцию под конкретные заявки.
+                </p>
+                <a href="index.php?page=about" class="btn btn-outline-secondary">Подробнее о компании</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="features-home py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-4">Почему выбирают нас</h2>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">Натуральные ингредиенты</h5>
+                        <p class="card-text">Используем только качественную муку, фермерские яйца и сливочное масло.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">Свежесть каждый день</h5>
+                        <p class="card-text">Выпекаем небольшими партиями, поэтому выпечка всегда только из печи.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">Бесплатная доставка</h5>
+                        <p class="card-text">Абсолютно бесплатно доставим прямо до вас.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 <!-- banner fullwidth section start -->
 <div class="deals_banner_section padding-l-r-92 mb-105 wow fadeInUp" data-wow-delay="0.1s" data-wow-duration="1.1s">
@@ -46,6 +96,45 @@
     </div>
 </div>
 <!-- banner fullwidth section end -->
+
+<section class="reviews-home py-5">
+    <div class="container">
+        <h2 class="text-center mb-4">Отзывы клиентов</h2>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body">
+                        <p class="card-text mb-3">
+                            «Заказывали торт на день рождения – оформление аккуратное, вкус идеальный, гости в восторге».
+                        </p>
+                        <h6 class="mb-0">Анна П.</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body">
+                        <p class="card-text mb-3">
+                            «Удобно заказать набор круассанов к офисному кофе‑брейку. Всегда привозят вовремя и ещё тёплые».
+                        </p>
+                        <h6 class="mb-0">Игорь К.</h6>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm">
+                    <div class="card-body">
+                        <p class="card-text mb-3">
+                            «Нравится, что можно адаптировать сладости под диету: меньше сахара, без крема на масле».
+                        </p>
+                        <h6 class="mb-0">Мария Л.</h6>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 
 <!-- modal area start-->
 <div class="modal fade" id="modal_box" tabindex="-1" role="dialog" aria-hidden="true">

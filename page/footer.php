@@ -1,60 +1,19 @@
 <!--footer area start-->
 <footer class="footer_widgets">
     <div class="container">
-        <div class="shipping_area">
-            <div class="row">
-                <div class="col-lg-4 col-md-4 col-sm-6">
-                    <div class="single_shipping d-flex align-items-center">
-                        <div class="shipping_icon">
-                            <img src="assets/img/others/shipping1.png" alt="">
-                        </div>
-                        <div class="shipping_text">
-                            <h3>Free Shipping</h3>
-                            <p>Capped at $39 per order</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-6">
-                    <div class="single_shipping d-flex align-items-center">
-                        <div class="shipping_icon">
-                            <img src="assets/img/others/shipping2.png" alt="">
-                        </div>
-                        <div class="shipping_text">
-                            <h3>Card Payments</h3>
-                            <p>12 Months Installments</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-6">
-                    <div class="single_shipping d-flex align-items-center">
-                        <div class="shipping_icon">
-                            <img src="assets/img/others/shipping3.png" alt="">
-                        </div>
-                        <div class="shipping_text">
-                            <h3>Easy Returns</h3>
-                            <p>Shop Wwith Confidence</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div class="main_footer">
             <div class="row">
                 <div class="col-12">
                     <div class="main_footer_inner d-flex">
                         <div class="footer_widget_list contact footer_list_width">
-                            <h3>Обратная связь</h3>
-                            <div class="footer_contact_desc">
-                                <p>Если у вас есть вопросы, пожалуйста, свяжитесь с нами по адресу <a href="#">demo@example.com</a></p>
-                            </div>
+                            <h3>Контакты</h3>
                             <div class="footer_contact_info">
                                 <div class="footer_contact_info_list d-flex align-items-center">
                                     <div class="footer_contact_info_icon">
                                         <span class="pe-7s-map-marker"></span>
                                     </div>
                                     <div class="footer_contact_info_text">
-                                        <p>Your address goes here.
-                                            123, Address.</p>
+                                        <p>Нижний Новгород,<br>ул. Пряничная, д. 5</p>
                                     </div>
                                 </div>
                                 <div class="footer_contact_info_list d-flex align-items-center">
@@ -63,71 +22,79 @@
                                     </div>
                                     <div class="footer_contact_info_text">
                                         <ul>
-                                            <li><a href="tel:+0123456789">+ 0 123 456 789</a></li>
-                                            <li><a href="tel:+0123456789">+ 0 123 456 789</a></li>
+                                            <li><a href="tel:+78001234567">+7 (800) 123-45-67</a></li>
                                         </ul>
                                     </div>
                                 </div>
-
+                                <div class="footer_contact_info_list d-flex align-items-center">
+                                    <div class="footer_contact_info_icon">
+                                        <span class="pe-7s-mail"></span>
+                                    </div>
+                                    <div class="footer_contact_info_text">
+                                        <ul>
+                                            <li><a href="mailto:info@bakery.example">info@bakery.example</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                         <div class="footer_menu_widget footer_list_width middle d-flex">
                             <div class="footer_widget_list">
-                                <h3>Information</h3>
+                                <h3>Информация</h3>
                                 <div class="footer_menu">
                                     <ul>
-                                        <li><a href="about.html"> About us</a></li>
-                                        <li><a href="contact.html">Delivery information</a></li>
-                                        <li><a href="contact.html">Privacy Policy</a></li>
-                                        <li><a href="contact.html">Sales</a></li>
-                                        <li><a href="contact.html">Terms & Conditions</a></li>
-                                        <li><a href="contact.html">Shipping Policy</a></li>
-                                        <li><a href="contact.html">EMI Payment</a></li>
+                                        <li><a href="index.php?page=about">О нас</a></li>
+                                        <li><a href="index.php?page=catalog">Каталог</a></li>
                                     </ul>
                                 </div>
                             </div>
                             <div class="footer_widget_list">
-                                <h3>Account</h3>
+                                <h3>Личный кабинет</h3>
                                 <div class="footer_menu">
                                     <ul>
-                                        <li><a href="my-account.html"> My account</a></li>
-                                        <li><a href="contact.html">My orders</a></li>
-                                        <li><a href="contact.html">Returns</a></li>
-                                        <li><a href="contact.html">Shipping</a></li>
-                                        <li><a href="wishlist.html">Wishlist</a></li>
-                                        <li><a href="about.html">How Does It Work</a></li>
-                                        <li><a href="login-register.html">Merchant Sign Up</a></li>
+                                        <?php if (isset($_SESSION['user'])): ?>
+                                            <li><a href="index.php?page=my-account">Мой аккаунт</a></li>
+                                            <li><a href="index.php?page=cart">Корзина</a></li>
+                                            <li><a href="event_user/logout.php">Выйти</a></li>
+                                        <?php else: ?>
+                                            <li><a href="index.php?page=login">Войти</a></li>
+                                        <?php endif; ?>
                                     </ul>
                                 </div>
                             </div>
                         </div>
                         <div class="footer_widget_list footer_list_width">
-                            <h3>newsletter</h3>
-                            <div class="footer_newsletter">
-                                <div class="newsletter_desc">
-                                    <p>If you have any question.please
-                                        contact us at <a href="contact.html">Send Us a Email</a></p>
+                            <h3>Мы в соцсетях</h3>
+                            <div class="footer_social">
+                                <div class="footer_social mt-3">
+                                    <ul class="d-flex gap-3 list-unstyled mb-0">
+                                        <li>
+                                            <a href="#" class="d-flex align-items-center justify-content-center bg-white rounded-circle"
+                                                style="width: 50px; height: 50px; transition: 0.3s;">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-instagram" viewBox="0 0 16 16">
+                                                    <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.9 3.9 0 0 0-1.417.923A3.9 3.9 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.9 3.9 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.9 3.9 0 0 0-.923-1.417A3.9 3.9 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599s.453.546.598.92c.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.5 2.5 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.5 2.5 0 0 1-.92-.598 2.5 2.5 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233s.008-2.388.046-3.231c.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92s.546-.453.92-.598c.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92m-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217m0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334" />
+                                                </svg>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="d-flex align-items-center justify-content-center bg-white rounded-circle"
+                                                style="width: 50px; height: 50px; transition: 0.3s;">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-telegram" viewBox="0 0 16 16">
+                                                    <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8.287 5.906q-1.168.486-4.666 2.01-.567.225-.595.442c-.03.243.275.339.69.47l.175.055c.408.133.958.288 1.243.294q.39.01.868-.32 3.269-2.206 3.374-2.23c.05-.012.12-.026.166.016s.042.12.037.141c-.03.129-1.227 1.241-1.846 1.817-.193.18-.33.307-.358.336a8 8 0 0 1-.188.186c-.38.366-.664.64.015 1.088.327.216.589.393.85.571.284.194.568.387.936.629q.14.092.27.187c.331.236.63.448.997.414.214-.02.435-.22.547-.82.265-1.417.786-4.486.906-5.751a1.4 1.4 0 0 0-.013-.315.34.34 0 0 0-.114-.217.53.53 0 0 0-.31-.093c-.3.005-.763.166-2.984 1.09" />
+                                                </svg>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="d-flex align-items-center justify-content-center bg-white rounded-circle"
+                                                style="width: 50px; height: 50px; transition: 0.3s;">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16">
+                                                    <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951" />
+                                                </svg>
+                                            </a>
+                                        </li>
+                                    </ul>
                                 </div>
 
-                                <div class="newsletter_subscribe">
-                                    <form id="mc-form">
-                                        <input id="mc-email" type="email" autocomplete="off"
-                                            placeholder="Email Address">
-                                        <button id="mc-submit"><i class="ion-arrow-right-c"></i></button>
-                                    </form>
-                                    <!-- mailchimp-alerts Start -->
-                                    <div class="mailchimp-alerts text-centre">
-                                        <div class="mailchimp-submitting"></div>
-                                        <!-- mailchimp-submitting end -->
-                                        <div class="mailchimp-success"></div>
-                                        <!-- mailchimp-success end -->
-                                        <div class="mailchimp-error"></div>
-                                        <!-- mailchimp-error end -->
-                                    </div><!-- mailchimp-alerts end -->
-                                </div>
-                                <div class="footer_paypal">
-                                    <a href="#"><img src="assets/img/others/paypal.png" alt=""></a>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -136,9 +103,7 @@
         </div>
         <div class="footer_bottom">
             <div class="copyright_right text-center">
-                <p> © 2021 <a href="index.html"> Bucker.</a> Made with <i class="ion-heart"></i> by
-                    <a href="https://themeforest.net/user/codecarnival/portfolio">CodeCarnival</a>
-                </p>
+                <p>© 2025 Bucker. Все права защищены.</p>
             </div>
         </div>
     </div>
@@ -146,7 +111,6 @@
 <!--footer area end-->
 
 <!-- JS ============================================ -->
-
 <script src="assets/js/vendor/jquery-3.6.0.min.js"></script>
 <script src="assets/js/vendor/jquery-migrate-3.3.2.min.js"></script>
 <script src="assets/js/vendor/bootstrap.bundle.min.js"></script>
@@ -162,7 +126,6 @@
 
 <!-- Main JS -->
 <script src="assets/js/main.js"></script>
-
 
 </body>
 

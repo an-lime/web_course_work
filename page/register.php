@@ -1,19 +1,5 @@
 <!-- breadcrumbs area start -->
-<div class="breadcrumbs_aree breadcrumbs_bg mb-110" data-bgimg="assets/img/others/breadcrumbs-bg.png">
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <div class="breadcrumbs_text">
-                    <h1>Login | Register</h1>
-                    <ul>
-                        <li><a href="index.html">Home </a></li>
-                        <li> // Login | Register</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<div class="breadcrumbs_aree breadcrumbs_bg mb-110" data-bgimg="assets/img/bg/testimonial-bg.png"></div>
 <!-- breadcrumbs area end -->
 <div class="login-register-area">
     <div class="container">

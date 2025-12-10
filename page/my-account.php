@@ -37,15 +37,15 @@ $ORDER_META_JSON = json_encode($meta, JSON_UNESCAPED_UNICODE);
 ?>
 
 <!-- breadcrumbs area start -->
-<div class="breadcrumbs_aree breadcrumbs_bg mb-110" data-bgimg="assets/img/others/breadcrumbs-bg.png">
+<div class="breadcrumbs_aree breadcrumbs_bg mb-110" data-bgimg="assets/img/bg/testimonial-bg.png">
     <div class="container">
         <div class="row">
             <div class="col-12">
                 <div class="breadcrumbs_text">
-                    <h1>My Account</h1>
+                    <h1>Профиль</h1>
                     <ul>
-                        <li><a href="index.html">Home </a></li>
-                        <li> // My Account</li>
+                        <li><a href="index.php?page=main">Главная </a></li>
+                        <li> // Профиль</li>
                     </ul>
                 </div>
             </div>
@@ -60,15 +60,11 @@ $ORDER_META_JSON = json_encode($meta, JSON_UNESCAPED_UNICODE);
                 <ul class="nav myaccount-tab-trigger" id="account-page-tab" role="tablist">
                     <li class="nav-item">
                         <a class="nav-link active" id="account-orders-tab" data-bs-toggle="tab" href="#account-orders"
-                            role="tab" aria-controls="account-orders" aria-selected="false">Orders</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" id="account-address-tab" data-bs-toggle="tab" href="#account-address"
-                            role="tab" aria-controls="account-address" aria-selected="false">Addresses</a>
+                            role="tab" aria-controls="account-orders" aria-selected="false">Заказы</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" id="account-details-tab" data-bs-toggle="tab" href="#account-details"
-                            role="tab" aria-controls="account-details" aria-selected="false">Account Details</a>
+                            role="tab" aria-controls="account-details" aria-selected="false">Данные аккаунта</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" id="account-logout-tab" href="event_user/logout.php" role="tab"
@@ -81,7 +77,7 @@ $ORDER_META_JSON = json_encode($meta, JSON_UNESCAPED_UNICODE);
                     <div class="tab-pane fade show active" id="account-orders" role="tabpanel"
                         aria-labelledby="account-orders-tab">
                         <div class="myaccount-orders">
-                            <h4 class="small-title">MY ORDERS</h4>
+                            <h4 class="small-title">Мои заказы</h4>
                             <div class="table-responsive">
                                 <table class="table table-bordered table-hover">
                                     <tbody>
@@ -158,60 +154,68 @@ $ORDER_META_JSON = json_encode($meta, JSON_UNESCAPED_UNICODE);
 
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="account-address" role="tabpanel"
-                        aria-labelledby="account-address-tab">
-                        <div class="myaccount-address">
-                            <p>The following addresses will be used on the checkout page by default.</p>
-                            <div class="row">
-                                <div class="col">
-                                    <h4 class="small-title">BILLING ADDRESS</h4>
-                                    <address>
-                                        1234 Heaven Stress, Beverly Hill OldYork UnitedState of Lorem
-                                    </address>
-                                </div>
-                                <div class="col">
-                                    <h4 class="small-title">SHIPPING ADDRESS</h4>
-                                    <address>
-                                        1234 Heaven Stress, Beverly Hill OldYork UnitedState of Lorem
-                                    </address>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                     <div class="tab-pane fade" id="account-details" role="tabpanel"
                         aria-labelledby="account-details-tab">
                         <div class="myaccount-details">
-                            <form action="#" class="myaccount-form">
+                            <form action="event_user/change_user.php" method="POST" class="myaccount-form">
                                 <div class="myaccount-form-inner">
                                     <div class="single-input single-input-half">
-                                        <label>First Name*</label>
-                                        <input type="text">
+                                        <label>Имя*</label>
+                                        <input name="name" type="text" value="<?php echo $_SESSION['user']['name'] ?>" required>
                                     </div>
                                     <div class="single-input single-input-half">
-                                        <label>Last Name*</label>
-                                        <input type="text">
+                                        <label>Фамилия*</label>
+                                        <input name="surname" type="text" value="<?php echo $_SESSION['user']['surname'] ?>" required>
                                     </div>
                                     <div class="single-input">
-                                        <label>Email*</label>
-                                        <input type="email">
+                                        <label>Почта*</label>
+                                        <input name="email" type="email" value="<?php echo $_SESSION['user']['email'] ?>" required>
                                     </div>
+
+                                    <?php
+                                    if (isset($_SESSION['error_email'])):
+                                    ?>
+                                        <div class="mb-2 font-18 font-heading fw-600 text-danger">
+                                            <?php echo $_SESSION['error_email'];
+                                            unset($_SESSION['error_email']); ?>
+                                        </div>
+
+                                    <?php endif ?>
+
                                     <div class="single-input">
-                                        <label>Current Password(leave blank to leave
-                                            unchanged)</label>
-                                        <input type="password">
+                                        <label>Новый пароль (Оставьте пустым, чтобы не менять)</label>
+                                        <input name="password1" type="password">
                                     </div>
+
+                                    <?php
+                                    if (isset($_SESSION['error_password'])):
+                                    ?>
+                                        <div class="mb-2 font-18 font-heading fw-600 text-danger">
+                                            <?php echo $_SESSION['error_password'];
+                                            unset($_SESSION['error_password']); ?>
+                                        </div>
+
+                                    <?php endif ?>
+
                                     <div class="single-input">
-                                        <label>New Password (leave blank to leave
-                                            unchanged)</label>
-                                        <input type="password">
+                                        <label>Подтвердите пароль</label>
+                                        <input name="password2" type="password">
                                     </div>
-                                    <div class="single-input">
-                                        <label>Confirm New Password</label>
-                                        <input type="password">
-                                    </div>
+
+                                    <?php
+                                    if (isset($_SESSION['change_success'])):
+                                    ?>
+                                        <div class="mb-2 font-18 font-heading fw-600 text-success">
+                                            <?php echo $_SESSION['change_success'];
+
+                                            unset($_SESSION['change_success']); ?>
+                                        </div>
+
+                                    <?php endif ?>
+
                                     <div class="single-input">
                                         <button class="btn custom-btn" type="submit">
-                                            <span>SAVE CHANGES</span>
+                                            <span>Сохранить изменения</span>
                                         </button>
                                     </div>
                                 </div>

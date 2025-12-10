@@ -3,6 +3,8 @@ require '../connect.php'; // подключение к БД
 
 $id_user = (int)$_POST['id_user'];
 
+echo $id_user;
+
 $sql = "DELETE FROM Users WHERE id_user = $id_user";
 try {
     $link->query($sql);

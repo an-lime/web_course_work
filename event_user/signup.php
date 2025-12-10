@@ -15,6 +15,8 @@ $sql_current_user = $link->query("SELECT * FROM `Users` WHERE `email` = '$email'
 // валидация данных
 if (mysqli_num_rows($sql_current_user) > 0) {
     $_SESSION['error_email'] = 'Такой email уже используется';
+} elseif (strlen($password1) < 6) {
+    $_SESSION['error_password'] = 'Длина пароля должна быть не менее 6 символов';
 } elseif ($password1 !== $password2) {
     $_SESSION['error_password'] = 'Пароли не совпадают';
 } else {

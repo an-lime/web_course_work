@@ -17,7 +17,6 @@ if (mysqli_num_rows($sql_user_login) > 0) {
         'email' => $sql_user['email'],
         'is_admin' => $sql_user['is_admin']
     ];
-
     header("Location:../index.php?page=main");
 } else {
     $_SESSION['error_login']  = 'Введён неверный логин или пароль';
