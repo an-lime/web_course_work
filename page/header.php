@@ -107,7 +107,7 @@
                                     </li>
                                     <li><i class="icofont-envelope"></i> <a
                                             href="mailto:demo@example.com">demo@example.com</a></li>
-                                    <?php if (!$_SESSION['user']): ?>
+                                    <?php if (!isset($_SESSION['user'])): ?>
                                         <li><a href="index.php?page=login">Вход</a></li>
                                         <li><a href="index.php?page=register">Регистрация</a></li>
                                     <?php else: ?>
@@ -147,9 +147,13 @@
                         <div class="header_account">
                             <ul class="d-flex">
                                 <li class="shopping_cart"><a href="javascript:void(0)"><i class="pe-7s-shopbag"></i></a>
-                                    <span class="item_count">
-                                        <?php echo (int)$sql_product_in_cart->num_rows; ?>
-                                    </span>
+                                    <?php if ($total_price > 0) : ?>
+                                        <span class="item_count">
+                                            <?php if ($sql_product_in_cart && $sql_product_in_cart->num_rows > 0): ?>
+                                                <?php echo (int)$sql_product_in_cart->num_rows; ?>
+                                            <?php endif ?>
+                                        </span>
+                                    <?php endif ?>
                                 </li>
                             </ul>
                             <div class="canvas_open">
@@ -174,22 +178,24 @@
                 </div>
             </div>
 
-            <?php foreach ($sql_product_in_cart as $product_in_cart): ?>
+            <?php if (isset($sql_product_in_cart)) : ?>
+                <?php foreach ($sql_product_in_cart as $product_in_cart): ?>
 
-                <div class="cart_item">
-                    <div class="cart_img">
-                        <a href="index.php?page=product&id_product=<?php echo $product_in_cart['id_product'] ?>"><img src="<?php echo $product_in_cart['photo'] ?>" alt=""></a>
+                    <div class="cart_item">
+                        <div class="cart_img">
+                            <a href="index.php?page=product&id_product=<?php echo $product_in_cart['id_product'] ?>"><img src="<?php echo $product_in_cart['photo'] ?>" alt=""></a>
+                        </div>
+                        <div class="cart_info">
+                            <a href="index.php?page=product&id_product=<?php echo $product_in_cart['id_product'] ?>"><?php echo $product_in_cart['name_product'] ?></a>
+                            <p><?php echo $product_in_cart['qty'] ?> x <span> <?php echo $product_in_cart['price'] ?> р. </span></p>
+                        </div>
+                        <div class="cart_remove">
+                            <a href="event_cart/remove_cart.php?id_product_del=<?php echo $product_in_cart['id_product'] ?>"><i class="ion-android-close"></i></a>
+                        </div>
                     </div>
-                    <div class="cart_info">
-                        <a href="index.php?page=product&id_product=<?php echo $product_in_cart['id_product'] ?>"><?php echo $product_in_cart['name_product'] ?></a>
-                        <p><?php echo $product_in_cart['qty'] ?> x <span> <?php echo $product_in_cart['price'] ?> р. </span></p>
-                    </div>
-                    <div class="cart_remove">
-                        <a href="event_cart/remove_cart.php?id_product_del=<?php echo $product_in_cart['id_product'] ?>"><i class="ion-android-close"></i></a>
-                    </div>
-                </div>
 
-            <?php endforeach ?>
+                <?php endforeach ?>
+            <?php endif ?>
 
         </div>
         <div class="mini_cart_table">
@@ -204,7 +210,7 @@
             <div class="cart_button">
                 <a href="index.php?page=cart">Открыть корзину</a>
             </div>
-            <?php if (isset($_SESSION['user']) and strlen($product_in_cart) > 0) : ?>
+            <?php if (isset($_SESSION['user']) and $total_price > 0) : ?>
                 <div class="cart_button">
                     <a href="index.php?page=checkout"><i class="fa fa-sign-in"></i>Перейти к оформлению</a>
                 </div>

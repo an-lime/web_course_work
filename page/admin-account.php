@@ -39,6 +39,10 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" id="account-details-tab" data-bs-toggle="tab" href="#account-details"
+                            role="tab" aria-controls="account-details" aria-selected="false">Данные аккаунта</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="admin-nav-link" href="event_user/logout.php">
                             <i class="fa fa-sign-out me-2"></i>Выйти
                         </a>
@@ -298,6 +302,75 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="tab-pane fade" id="account-details" role="tabpanel"
+                        aria-labelledby="account-details-tab">
+                        <div class="myaccount-details">
+                            <form action="event_user/change_user.php" method="POST" class="myaccount-form">
+                                <div class="myaccount-form-inner">
+                                    <div class="single-input single-input-half">
+                                        <label>Имя*</label>
+                                        <input name="name" type="text" value="<?php echo $_SESSION['user']['name'] ?>" required>
+                                    </div>
+                                    <div class="single-input single-input-half">
+                                        <label>Фамилия*</label>
+                                        <input name="surname" type="text" value="<?php echo $_SESSION['user']['surname'] ?>" required>
+                                    </div>
+                                    <div class="single-input">
+                                        <label>Почта*</label>
+                                        <input name="email" type="email" value="<?php echo $_SESSION['user']['email'] ?>" required>
+                                    </div>
+
+                                    <?php
+                                    if (isset($_SESSION['error_email'])):
+                                    ?>
+                                        <div class="mb-2 font-18 font-heading fw-600 text-danger">
+                                            <?php echo $_SESSION['error_email'];
+                                            unset($_SESSION['error_email']); ?>
+                                        </div>
+
+                                    <?php endif ?>
+
+                                    <div class="single-input">
+                                        <label>Новый пароль (Оставьте пустым, чтобы не менять)</label>
+                                        <input name="password1" type="password">
+                                    </div>
+
+                                    <?php
+                                    if (isset($_SESSION['error_password'])):
+                                    ?>
+                                        <div class="mb-2 font-18 font-heading fw-600 text-danger">
+                                            <?php echo $_SESSION['error_password'];
+                                            unset($_SESSION['error_password']); ?>
+                                        </div>
+
+                                    <?php endif ?>
+
+                                    <div class="single-input">
+                                        <label>Подтвердите пароль</label>
+                                        <input name="password2" type="password">
+                                    </div>
+
+                                    <?php
+                                    if (isset($_SESSION['change_success'])):
+                                    ?>
+                                        <div class="mb-2 font-18 font-heading fw-600 text-success">
+                                            <?php echo $_SESSION['change_success'];
+
+                                            unset($_SESSION['change_success']); ?>
+                                        </div>
+
+                                    <?php endif ?>
+
+                                    <div class="single-input">
+                                        <button class="btn custom-btn" type="submit">
+                                            <span>Сохранить изменения</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -523,6 +596,7 @@
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Категория</label>
+                    <br>
                     <select name="category" id="p-edit-category" class="form-select" required>
                         <?php mysqli_data_seek($admin_categories, 0);
                         foreach ($admin_categories as $cat): ?>
@@ -530,8 +604,10 @@
                         <?php endforeach; ?>
                     </select>
                 </div>
+                <br><br>
                 <div class="mb-3">
                     <label class="form-label">Размер</label>
+                    <br>
                     <select name="size" id="p-edit-size" class="form-select" required>
                         <?php mysqli_data_seek($admin_sizes, 0);
                         foreach ($admin_sizes as $sz): ?>
@@ -539,8 +615,10 @@
                         <?php endforeach; ?>
                     </select>
                 </div>
+                <br><br>
                 <div class="mb-3">
                     <label class="form-label">Краткое описание</label>
+                    <br>
                     <input type="text" name="short_description" id="p-edit-short" class="form-control">
                 </div>
                 <div class="mb-3">

@@ -44,4 +44,8 @@ if (mysqli_num_rows($sql_current_user) > 0 && $email != $_SESSION['user']['email
     }
 }
 
-header("Location: ../index.php?page=my-account");
+if ($_SESSION['user']['is_admin'] == 0) {
+    header("Location: ../index.php?page=my-account");
+} else {
+    header("Location: ../index.php?page=admin-account");
+}

@@ -5,17 +5,26 @@ session_start();
 require 'connect.php';
 
 // Для количества товаров корзины в хедере
-$id_user = (int)$_SESSION['user']['id_user'];
-
-$sql_product_in_cart = $link->query(" SELECT p.*, c.qty, cat.name_category, s.name_size 
-FROM Carts c 
-JOIN Products p ON c.id_product = p.id_product, Categories cat, Sizes s
-WHERE c.id_user = $id_user AND cat.id_category = p.category AND s.id_size = p.size
-");
-
+$sql_product_in_cart = null;
 $total_price = 0;
-foreach ($sql_product_in_cart as $product_in_cart) {
-    $total_price += $product_in_cart['price'] * $product_in_cart['qty'];
+
+if (isset($_SESSION['user']['id_user'])) {
+    $id_user = (int)$_SESSION['user']['id_user'];
+
+    $sql_product_in_cart = $link->query("
+        SELECT p.*, c.qty, cat.name_category, s.name_size 
+        FROM Carts c 
+        JOIN Products p ON c.id_product = p.id_product
+        JOIN Categories cat ON cat.id_category = p.category
+        JOIN Sizes s ON s.id_size = p.size
+        WHERE c.id_user = $id_user
+    ");
+
+    if ($sql_product_in_cart && $sql_product_in_cart->num_rows > 0) {
+        foreach ($sql_product_in_cart as $product_in_cart) {
+            $total_price += $product_in_cart['price'] * $product_in_cart['qty'];
+        }
+    }
 }
 
 // и теперь подключаем header.php
@@ -135,55 +144,64 @@ if (isset($_GET['id_product'])) {
 };
 
 // Страница всех заказов пользователя
-
-$id_user = (int)$_SESSION['user']['id_user'];
-$sql_orders = $link->query("
-    SELECT 
-        o.id_order,
-        MIN(o.date) AS date,
-        MIN(o.status) AS status,
-        SUM(o.amount) AS items_count,
-        SUM(o.amount * p.price) AS total
-    FROM Orders o 
-    JOIN Products p ON p.id_product = o.id_product 
-    WHERE o.id_user = $id_user 
-    GROUP BY o.id_order 
-    ORDER BY date DESC, id_order DESC
-");
-
-// товары всех заказов
-$sql_order_items = $link->query("
-    SELECT 
-        o.id_order,
-        o.amount,
-        o.id_product,
-        p.name_product,
-        p.photo,
-        p.price
-    FROM Orders o 
-    JOIN Products p ON p.id_product = o.id_product 
-    WHERE o.id_user = $id_user 
-    ORDER BY o.id_order DESC, p.name_product
-");
-
-// сгруппируем товары по id_order
+$sql_orders = null;
 $order_items = [];
-if ($sql_order_items && $sql_order_items->num_rows) {
-    foreach ($sql_order_items as $it) {
-        $order_items[$it['id_order']][] = $it;
+
+if (isset($_SESSION['user']['id_user'])) {
+    $id_user = (int)$_SESSION['user']['id_user'];
+
+    $sql_orders = $link->query("
+        SELECT 
+            o.id_order,
+            MIN(o.date) AS date,
+            MIN(o.status) AS status,
+            SUM(o.amount) AS items_count,
+            SUM(o.amount * p.price) AS total
+        FROM Orders o 
+        JOIN Products p ON p.id_product = o.id_product 
+        WHERE o.id_user = $id_user 
+        GROUP BY o.id_order 
+        ORDER BY date DESC, id_order DESC
+    ");
+
+    // товары всех заказов
+    $sql_order_items = $link->query("
+        SELECT 
+            o.id_order,
+            o.amount,
+            o.id_product,
+            p.name_product,
+            p.photo,
+            p.price
+        FROM Orders o 
+        JOIN Products p ON p.id_product = o.id_product 
+        WHERE o.id_user = $id_user 
+        ORDER BY o.id_order DESC, p.name_product
+    ");
+
+    // сгруппируем товары по id_order
+    if ($sql_order_items && $sql_order_items->num_rows) {
+        foreach ($sql_order_items as $it) {
+            $order_items[$it['id_order']][] = $it;
+        }
     }
 }
 
 // АДМИН ПАНЕЛЬ
+if (isset($_SESSION['user']['id_user'])) {
+    $id_user = (int)$_SESSION['user']['id_user'];
 
-$sql_users = $link->query("
-    SELECT * 
-    FROM Users 
-    ORDER BY 
-        CASE WHEN id_user = $id_user THEN 0 ELSE 1 END, 
-        is_admin DESC,
-        id_user ASC
-");
+    $sql_users = $link->query("
+        SELECT * 
+        FROM Users 
+        ORDER BY 
+            CASE WHEN id_user = $id_user THEN 0 ELSE 1 END, 
+            is_admin DESC,
+            id_user ASC
+    ");
+} else {
+    $sql_users = null;
+}
 
 // ----- АДМИН: фильтры заказов -----
 $order_admin_f_user   = isset($_GET['order_admin_user'])   ? (int)$_GET['order_admin_user']   : 0;
