@@ -28,7 +28,6 @@ WHERE c.id_user = $id_user AND cat.id_category = p.category AND s.id_size = p.si
         foreach ($sql_product_in_cart as $product) {
             $id_product = $product['id_product'];
             $amount = $product['qty'];
-            echo $adress;
 
             mysqli_query($link, "INSERT INTO `Orders` (`id_order`, `id_product`, `id_user`, `amount`, `status`, `city`, `adress`, `country`) 
         VALUES ('$id_last_order', '$id_product', '$id_user', '$amount', 'Новый', '$city', '$adress', '$country')");

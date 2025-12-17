@@ -13,7 +13,7 @@
                                         <span class="pe-7s-map-marker"></span>
                                     </div>
                                     <div class="footer_contact_info_text">
-                                        <p>Нижний Новгород,<br>ул. Пряничная, д. 5</p>
+                                        <p>Нижний Новгород,<br>Студенческая ул., 6</p>
                                     </div>
                                 </div>
                                 <div class="footer_contact_info_list d-flex align-items-center">

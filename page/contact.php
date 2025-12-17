@@ -27,7 +27,7 @@
 
                         <div class="contact_info_details mb-45 mt-4">
                             <h3>Наша пекарня в Нижнем Новгороде</h3>
-                            <p><strong>Адрес:</strong> ул. Пряничная, д. 5</p>
+                            <p><strong>Адрес:</strong> Студенческая ул., 6</p>
                             <p><strong>Телефон:</strong> <a href="tel:+78001234567">+7 (800) 123-45-67</a></p>
                             <p><strong>Email:</strong> <a href="mailto:info@bakery.example">info@bakery.example</a></p>
                             <p><strong>Режим работы:</strong> Ежедневно с 9:00 до 21:00</p>
@@ -72,9 +72,10 @@
 <!-- contact section end -->
 
 <!--contact map start-->
-<div class="contact_map mt-70" id="map">
+
+<div class="contact_map mt-70" id="map" style="margin-bottom: 10px;">
     <iframe
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d142499.19135358555!2d43.78731047484086!3d56.32682479415767!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x41527b4f2e0c5eb5%3A0x520e8d8b3470b0d9!2z0J3QuNC20L3QuNC5INCd0L7QstCz0L7RgNC-0LQ!5e0!3m2!1sru!2sru!4v1733566000000!5m2!1sru!2sru"
+        src="https://yandex.ru/map-widget/v1/?ll=43.988253%2C56.302613&mode=search&oid=1033480666&ol=biz&source=serp_navig&z=17.08"
         style="border:0; width:100%; height:450px;"
         allowfullscreen=""
         loading="lazy"
