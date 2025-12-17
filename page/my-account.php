@@ -36,6 +36,11 @@ if ($sql_orders && $sql_orders->num_rows > 0) {
 $ORDER_META_JSON = json_encode($meta, JSON_UNESCAPED_UNICODE);
 ?>
 
+<?php
+$active_tab = isset($_GET['tab']) ? $_GET['tab'] : 'account-orders';
+?>
+
+
 <!-- breadcrumbs area start -->
 <div class="breadcrumbs_aree breadcrumbs_bg mb-110" data-bgimg="assets/img/bg/testimonial-bg.png">
     <div class="container">
@@ -59,23 +64,30 @@ $ORDER_META_JSON = json_encode($meta, JSON_UNESCAPED_UNICODE);
             <div class="col-lg-3">
                 <ul class="nav myaccount-tab-trigger" id="account-page-tab" role="tablist">
                     <li class="nav-item">
-                        <a class="nav-link active" id="account-orders-tab" data-bs-toggle="tab" href="#account-orders"
-                            role="tab" aria-controls="account-orders" aria-selected="false">Заказы</a>
+                        <a class="nav-link <?php echo ($active_tab == 'account-orders') ? 'active' : ''; ?>"
+                            id="account-orders-tab"
+                            data-bs-toggle="tab"
+                            href="#account-orders"
+                            role="tab">Заказы</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="account-details-tab" data-bs-toggle="tab" href="#account-details"
-                            role="tab" aria-controls="account-details" aria-selected="false">Данные аккаунта</a>
+                        <a class="nav-link <?php echo ($active_tab == 'account-details') ? 'active' : ''; ?>"
+                            id="account-details-tab"
+                            data-bs-toggle="tab"
+                            href="#account-details"
+                            role="tab">Данные аккаунта</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="account-logout-tab" href="event_user/logout.php" role="tab"
-                            aria-selected="false">Выйти</a>
+                        <a class="nav-link" id="account-logout-tab" href="event_user/logout.php" role="tab">Выйти</a>
                     </li>
                 </ul>
             </div>
+
             <div class="col-lg-9">
                 <div class="tab-content myaccount-tab-content" id="account-page-tab-content">
-                    <div class="tab-pane fade show active" id="account-orders" role="tabpanel"
-                        aria-labelledby="account-orders-tab">
+                    <div class="tab-pane fade <?php echo ($active_tab == 'account-orders') ? 'show active' : ''; ?>"
+                        id="account-orders"
+                        role="tabpanel">
                         <div class="myaccount-orders">
                             <h4 class="small-title">Мои заказы</h4>
                             <div class="table-responsive">
@@ -154,8 +166,9 @@ $ORDER_META_JSON = json_encode($meta, JSON_UNESCAPED_UNICODE);
 
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="account-details" role="tabpanel"
-                        aria-labelledby="account-details-tab">
+                    <div class="tab-pane fade <?php echo ($active_tab == 'account-details') ? 'show active' : ''; ?>"
+                        id="account-details"
+                        role="tabpanel">
                         <div class="myaccount-details">
                             <form action="event_user/change_user.php" method="POST" class="myaccount-form">
                                 <div class="myaccount-form-inner">

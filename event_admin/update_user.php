@@ -21,4 +21,4 @@ if (!empty($_POST['password'])) {
 }
 
 $link->query($sql);
-header('Location: ../index.php?page=admin-account');
+header('Location: ../index.php?page=admin-account&tab=users');

@@ -1,3 +1,8 @@
+<?php
+$admin_active_tab = isset($_GET['tab']) ? $_GET['tab'] : 'users';
+?>
+
+
 <!-- Breadcrumbs area start -->
 <div class="admin-breadcrumbs breadcrumbs_aree mb-110" data-bgimg="assets/img/bg/testimonial-bg.png">
     <div class="container">
@@ -24,23 +29,38 @@
             <div class="col-lg-3">
                 <ul class="nav admin-sidebar myaccount-tab-trigger" id="admin-tab" role="tablist">
                     <li class="nav-item">
-                        <a class="admin-nav-link active" id="users-tab" data-bs-toggle="tab" href="#users" role="tab">
+                        <a class="admin-nav-link <?php echo ($admin_active_tab == 'users') ? 'active' : ''; ?>"
+                            id="users-tab"
+                            data-bs-toggle="tab"
+                            href="#users"
+                            role="tab">
                             <i class="fa fa-users me-2"></i>Пользователи
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="admin-nav-link" id="orders-tab" data-bs-toggle="tab" href="#orders" role="tab">
+                        <a class="admin-nav-link <?php echo ($admin_active_tab == 'orders') ? 'active' : ''; ?>"
+                            id="orders-tab"
+                            data-bs-toggle="tab"
+                            href="#orders"
+                            role="tab">
                             <i class="fa fa-shopping-cart me-2"></i>Заказы/Заявки
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="admin-nav-link" id="catalog-tab" data-bs-toggle="tab" href="#catalog" role="tab">
+                        <a class="admin-nav-link <?php echo ($admin_active_tab == 'catalog') ? 'active' : ''; ?>"
+                            id="catalog-tab"
+                            data-bs-toggle="tab"
+                            href="#catalog"
+                            role="tab">
                             <i class="fa fa-th-large me-2"></i>Каталог товаров
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="account-details-tab" data-bs-toggle="tab" href="#account-details"
-                            role="tab" aria-controls="account-details" aria-selected="false">Данные аккаунта</a>
+                        <a class="nav-link <?php echo ($admin_active_tab == 'account-details') ? 'active' : ''; ?>"
+                            id="account-details-tab"
+                            data-bs-toggle="tab"
+                            href="#account-details"
+                            role="tab">Данные аккаунта</a>
                     </li>
                     <li class="nav-item">
                         <a class="admin-nav-link" href="event_user/logout.php">
@@ -50,13 +70,15 @@
                 </ul>
             </div>
 
+
             <!-- Content -->
             <div class="col-lg-9">
                 <div class="tab-content myaccount-tab-content admin-tab-content" id="admin-tab-content">
 
-                    <!-- Dashboard Tab -->
                     <!-- Users Tab -->
-                    <div class="tab-pane fade active" id="users" role="tabpanel">
+                    <div class="tab-pane fade <?php echo ($admin_active_tab == 'users') ? 'show active' : ''; ?>"
+                        id="users"
+                        role="tabpanel">
                         <div class="myaccount-content">
                             <h4 class="small-title mb-4">Управление пользователями</h4>
                             <div class="table-responsive">
@@ -118,7 +140,9 @@
 
 
                     <!-- Orders Tab -->
-                    <div class="tab-pane fade" id="orders" role="tabpanel">
+                    <div class="tab-pane fade <?php echo ($admin_active_tab == 'orders') ? 'show active' : ''; ?>"
+                        id="orders"
+                        role="tabpanel">
                         <div class="myaccount-content">
                             <h4 class="small-title mb-4">Заказы и заявки</h4>
 
@@ -233,7 +257,9 @@
 
 
                     <!-- Catalog Tab -->
-                    <div class="tab-pane fade" id="catalog" role="tabpanel">
+                    <div class="tab-pane fade <?php echo ($admin_active_tab == 'catalog') ? 'show active' : ''; ?>"
+                        id="catalog"
+                        role="tabpanel">
                         <div class="myaccount-content">
                             <h4 class="small-title mb-4">Управление каталогом</h4>
                             <div class="row mb-4">
@@ -303,8 +329,9 @@
                         </div>
                     </div>
 
-                    <div class="tab-pane fade" id="account-details" role="tabpanel"
-                        aria-labelledby="account-details-tab">
+                    <div class="tab-pane fade <?php echo ($admin_active_tab == 'account-details') ? 'show active' : ''; ?>"
+                        id="account-details"
+                        role="tabpanel">
                         <div class="myaccount-details">
                             <form action="event_user/change_user.php" method="POST" class="myaccount-form">
                                 <div class="myaccount-form-inner">

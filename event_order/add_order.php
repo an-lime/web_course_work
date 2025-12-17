@@ -36,7 +36,11 @@ WHERE c.id_user = $id_user AND cat.id_category = p.category AND s.id_size = p.si
             mysqli_query($link, "DELETE FROM Carts 
         WHERE id_user = $id_user AND id_product = $id_product");
         }
-        header("Location:../index.php?page=my-account");
+        if ($_SESSION['user']['is_admin'] == 0) {
+            header("Location: ../index.php?page=my-account");
+        } else {
+            header("Location: ../index.php?page=admin-account");
+        }
     } else {
         header("Location:../index.php?page=checkout");
     }

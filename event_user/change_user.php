@@ -14,7 +14,7 @@ $sql_current_user = $link->query("SELECT * FROM `Users` WHERE `email` = '$email'
 if (mysqli_num_rows($sql_current_user) > 0 && $email != $_SESSION['user']['email']) {
     $_SESSION['error_email'] = 'Такой email уже используется';
 } else {
-    
+
     $sql_str = "UPDATE `Users` SET `name` = '$name', `surname` = '$surname', `email` = '$email'";
 
     if (!empty($password1)) {
@@ -27,25 +27,24 @@ if (mysqli_num_rows($sql_current_user) > 0 && $email != $_SESSION['user']['email
             $sql_str .= ", `password` = '$password_hash'";
         }
     }
-    
+
     $id_user = (int)$_SESSION['user']['id_user'];
     $sql_str .= " WHERE `id_user` = $id_user";
 
     try {
         mysqli_query($link, $sql_str);
         $_SESSION['change_success'] = 'Данные успешно изменены';
-        
+
         $_SESSION['user']['name'] = $name;
         $_SESSION['user']['surname'] = $surname;
         $_SESSION['user']['email'] = $email;
-        
     } catch (\Throwable $th) {
         $_SESSION['error'] = 'Ошибка при обновлении данных';
     }
 }
 
 if ($_SESSION['user']['is_admin'] == 0) {
-    header("Location: ../index.php?page=my-account");
+    header("Location: ../index.php?page=my-account&tab=account-details");
 } else {
-    header("Location: ../index.php?page=admin-account");
+    header("Location: ../index.php?page=admin-account&tab=account-details");
 }

@@ -12,4 +12,4 @@ try {
     echo $th;
 }
 
-header('Location: ../index.php?page=admin-account');
+header('Location: ../index.php?page=admin-account&tab=users');
